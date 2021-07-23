@@ -1,0 +1,15 @@
+{
+    "extends": "@tsconfig/svelte/tsconfig.json",
+    "compilerOptions": {
+      "baseUrl": "src",
+      "paths": {
+      },
+      "experimentalDecorators": true,
+      "types": ["svelte"]
+    },
+    "include": [
+      "**/*.ts", "**/*.css" 
+    ]
+    // "exclude": []
+  }
+  
