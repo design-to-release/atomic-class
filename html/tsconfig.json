@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "baseUrl": "src",
+      "paths": {
+      },
+      "experimentalDecorators": true
+    },
+    "include": [
+      "src/**.ts"
+    ]
+    // "exclude": []
+  }
+  

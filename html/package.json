@@ -1,0 +1,41 @@
+{
+  "name": "@atomic-class/core",
+  "version": "0.0.1",
+  "description": "A reactive framework for component to control classsheet",
+  "main": "dist/index.js",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "preinstall:all": "npx only-allow pnpm",
+    "build": "rollup -c ./rollup.config.js",
+    "dev": "rollup -c ./rollup.config.js -w --environment moduleId:../lib",
+    "start": "sirv public --no-clear"
+  },
+  "dependencies": {
+    "@rollup/pluginutils": "^3.0.10",
+    "acorn": "^8.4.1",
+    "astring": "^1.7.5",
+    "magic-string": "^0.25.7",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-typescript": "^8.2.3",
+    "only-allow": "^1.0.0",
+    "rollup": "^2.3.4",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "sirv-cli": "^1.0.0",
+    "typescript": "^4.3.5"
+  },
+  "keywords": [
+    "reactive-class",
+    "atomic-class",
+    "tailwindcss",
+    "configrable-class"
+  ],
+  "homepage": "https://github.com/design-to-release/reactive-class",
+  "repository": "design-to-release/reactive-class",
+  "license": "MIT"
+}
