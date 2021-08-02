@@ -1,16 +1,16 @@
 <style>
-.bg-red {
-  background-color: red;
-}
-.bg-blue {
-  background-color: blue;
-}
-.bg-gray {
-  background: gray;
-}
-.bg-orange {
-  background: orange;
-}
+  .bg-orange {
+    background: orange;
+  }
+  .bg-red {
+    background-color: red;
+  }
+  .bg-blue {
+    background-color: blue;
+  }
+  .bg-gray {
+    background: gray;
+  }
 </style>
 
 <template>
@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import Button from "./Button.san";
+  import Button from "./Button.san";
 
-export default {
-  components: {
-    "my-button": Button,
-  },
-};
+  export default {
+    components: {
+      "my-button": Button,
+    },
+  };
 </script>

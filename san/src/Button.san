@@ -1,5 +1,6 @@
 <template>
   <button
+    class="bg-orange"
     on-click="btnClickHandler"
     on-mouseenter="btnEnterHandler"
     on-mouseleave="btnLeaveHandler"
