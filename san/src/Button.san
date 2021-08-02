@@ -16,9 +16,5 @@
     btnClickHandler: stateHandler('active'),
     btnEnterHandler: stateHandler('hover'),
     btnLeaveHandler: stateHandler('default'),
-
-    initData() {
-      return {};
-    },
   };
 </script>

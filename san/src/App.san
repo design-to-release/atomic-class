@@ -26,10 +26,5 @@ export default {
   components: {
     "my-button": Button,
   },
-  initData() {
-    return {
-      name: "San",
-    };
-  },
 };
 </script>
