@@ -1,0 +1,35 @@
+<style>
+.bg-red {
+  background-color: red;
+}
+.bg-blue {
+  background-color: blue;
+}
+.bg-gray {
+  background: gray;
+}
+.bg-orange {
+  background: orange;
+}
+</style>
+
+<template>
+  <div>
+    <my-button />
+  </div>
+</template>
+
+<script>
+import Button from "./Button.san";
+
+export default {
+  components: {
+    "my-button": Button,
+  },
+  initData() {
+    return {
+      name: "San",
+    };
+  },
+};
+</script>

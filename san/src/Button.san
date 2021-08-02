@@ -1,0 +1,24 @@
+<template>
+  <button
+    on-click="btnClickHandler"
+    on-mouseenter="btnEnterHandler"
+    on-mouseleave="btnLeaveHandler"
+    ac-default="bg-gray"
+    ac-active="bg-blue"
+    ac-hover="bg-red"
+  >Button</button>
+</template>
+
+<script>
+  import { stateHandler } from "./atomic-class.js";
+
+  export default {
+    btnClickHandler: stateHandler('active'),
+    btnEnterHandler: stateHandler('hover'),
+    btnLeaveHandler: stateHandler('default'),
+
+    initData() {
+      return {};
+    },
+  };
+</script>
