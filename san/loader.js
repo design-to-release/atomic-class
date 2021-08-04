@@ -40,8 +40,8 @@ module.exports = async function (source) {
           if (!sheetRegistries[usedIndex]) {
             sheetRegistries[usedIndex] = {};
           }
-          sheetRegistries[usedIndex][attr.key.content.slice(3)] =
-            attr.value.content;
+          sheetRegistries[usedIndex][attr.key.content.slice(3)] = attr.value
+            .content.split(" ").filter((i) => i);
         } else if (attr.key.content === "class") {
           classAttrNode = attr;
         }
@@ -73,10 +73,15 @@ module.exports = async function (source) {
 
     magicContent.appendRight(
       basePos + 1,
-      `\r\n${
-        sheetRegistries.map((iter, index) =>
-          `const __θac${index}Registry=${JSON.stringify(iter)};`
-        ).join("\r\n")
+      `\r\nimport { ac as __θac } from './atomic-class.js';
+      ${
+        Array(usedIndex).fill().map((_, i) => `
+        const __ac${i}Trigger = function (ev) {
+          __θac(${JSON.stringify(sheetRegistries[i])}, function (vm, s) {
+            vm.data.set('__θac0', s);
+          })(this, ev);
+        };
+      `).join("\r\n")
       }`,
     );
 
@@ -107,10 +112,7 @@ module.exports = async function (source) {
       basePos + exportAssignment.getStart() + 18,
       `${
         Array(usedIndex).fill().map((_, i) => `
-        __ac${i}Trigger({ detail }) {
-          const { states } = detail;
-          this.data.set('__θac${i}', states.map(i => __θac${i}Registry[i]).join(' '));
-        },
+        __ac${i}Trigger,
       `).join("")
       }`,
     );
