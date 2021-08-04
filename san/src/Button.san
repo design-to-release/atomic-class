@@ -14,14 +14,14 @@
   import { stateHandler } from "./atomic-class.js";
 
   export default {
-    btnClickHandler: stateHandler('active'),
-    btnEnterHandler: stateHandler('hover'),
-    btnLeaveHandler: stateHandler('default'),
+    btnClickHandler: stateHandler("active"),
+    btnEnterHandler: stateHandler("hover"),
+    btnLeaveHandler: stateHandler("default"),
 
     initData() {
       return {
         $style: {
-          base: 'base'
+          base: "base"
         }
       }
     },
