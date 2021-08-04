@@ -15,7 +15,10 @@ module.exports = {
     rules: [
       {
         test: /\.san$/,
-        use: [{ loader: 'san-loader', options: { esModule: true } }]
+        use: [
+          { loader: 'san-loader', options: { esModule: true } },
+          { loader: './loader.js', options: { dbg: true } }
+        ]
       },
       {
         test: /\.js$/,
@@ -30,12 +33,12 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loader: 'html-loader'
+        use: 'html-loader'
       }
     ],
   },
   plugins: [
     new HTMLWebpackPlugin({ template: './index.html' }),
-    new SanLoaderPlugin({ esModule: true }),
+    new SanLoaderPlugin({ esModule: true })
   ],
 };

@@ -1,6 +1,6 @@
 <template>
   <button
-    class="bg-orange"
+    class="bg-orange {{ $style.base }}"
     on-click="btnClickHandler"
     on-mouseenter="btnEnterHandler"
     on-mouseleave="btnLeaveHandler"
@@ -17,5 +17,13 @@
     btnClickHandler: stateHandler('active'),
     btnEnterHandler: stateHandler('hover'),
     btnLeaveHandler: stateHandler('default'),
+
+    initData() {
+      return {
+        $style: {
+          base: 'base'
+        }
+      }
+    },
   };
 </script>
