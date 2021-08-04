@@ -7,3 +7,14 @@ export function stateHandler(...states) {
     el.dispatchEvent(acTrigger);
   };
 }
+
+/**
+ * @param {Record<string, string[]>} registry
+ * @param {(vm, s: string) => void} cb
+ */
+export function rc(registry, cb) {
+  return function (vm, { detail }) {
+    const { states } = detail;
+    cb(vm, states.map((i) => registry[i].join(" ")).join(" "));
+  };
+}
