@@ -73,7 +73,16 @@ module.exports = async function (source) {
 
     magicContent.appendRight(
       basePos + 1,
-      `\r\nimport { rc } from './atomic-class.js';`,
+      `\r\nimport { ac as __θac } from './atomic-class.js';
+      ${
+        Array(usedIndex).fill().map((_, i) => `
+        const __ac${i}Trigger = function (ev) {
+          __θac(${JSON.stringify(sheetRegistries[i])}, function (vm, s) {
+            vm.data.set('__θac0', s);
+          })(this, ev);
+        };
+      `).join("\r\n")
+      }`,
     );
 
     const proj = new Project();
@@ -103,11 +112,7 @@ module.exports = async function (source) {
       basePos + exportAssignment.getStart() + 18,
       `${
         Array(usedIndex).fill().map((_, i) => `
-        __ac${i}Trigger: function (ev) {
-          rc(${JSON.stringify(sheetRegistries[i])}, function (vm, s) {
-            vm.data.set('__θac0', s);
-          })(this, ev);
-        },
+        __ac${i}Trigger,
       `).join("")
       }`,
     );
