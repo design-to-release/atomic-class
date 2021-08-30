@@ -1,5 +1,6 @@
 const SanLoaderPlugin = require('san-loader/lib/plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const AtomicClassSanWebpack = require('@atomic-class/san/webpack');
 
 const { join } = require('path');
 
@@ -17,7 +18,7 @@ module.exports = {
         test: /\.san$/,
         use: [
           { loader: 'san-loader', options: { esModule: true } },
-          { loader: './loader.js', options: { dbg: true } }
+          { loader: AtomicClassSanWebpack.loader, options: { dbg: true } }
         ]
       },
       {
@@ -39,6 +40,7 @@ module.exports = {
   },
   plugins: [
     new HTMLWebpackPlugin({ template: './index.html' }),
-    new SanLoaderPlugin({ esModule: true })
+    new SanLoaderPlugin({ esModule: true }),
+    new AtomicClassSanWebpack.Plugin({ css: { paths: ['./global.css'] } })
   ],
 };
