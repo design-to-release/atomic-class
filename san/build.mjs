@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+import { copyFile, mkdir } from 'fs/promises';
+import { existsSync } from 'fs';
 import { join } from 'path';
 import { cwd } from 'process';
-import { existsSync } from 'fs';
-import { copyFile, mkdir } from 'fs/promises';
 
 const files = ['package.json', 'package-lock.json'];
 const outDir = join(cwd(), './dist');

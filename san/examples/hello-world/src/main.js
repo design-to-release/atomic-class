@@ -1,4 +1,4 @@
-import App from "./App.san";
+import App from './App.san';
 
 const app = new App();
-app.attach(document.querySelector("#app"));
+app.attach(document.querySelector('#app'));
