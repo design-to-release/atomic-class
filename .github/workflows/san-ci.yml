@@ -4,10 +4,12 @@ on:
   push:
   pull_request:
     paths:
+      - ".github/workflows/san-ci.yml"
       - "san/**"
 
 jobs:
   build:
+    name: san test & build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -20,7 +22,7 @@ jobs:
           node-version: 16.x
 
       - run: npm i
-      - run: npm run test
+      - run: npm run test -- --coverage
       - run: npm run build
 
       - name: Upload coverage
@@ -28,3 +30,21 @@ jobs:
         with:
           name: atomic-class-san
           files: ./coverage/lcov.info
+
+  publish:
+    name: san publish
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: san
+    needs: [build]
+    if: github.repository == 'design-to-release/atomic-class'
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm i
+      - run: npm run rls
+      - run: npm publish --dry-run
+      - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
