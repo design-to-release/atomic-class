@@ -1,11 +1,10 @@
 {
-  "collectCoverage": true,
   "coverageDirectory": "coverage",
   "coverageProvider": "v8",
   "preset": "ts-jest",
   "testMatch": [
-    "<rootDir>/**/*.spec.{ts,tsx,js,jsx}",
-    "<rootDir>/*.spec.{ts,tsx,js,jsx}"
+    "<rootDir>/src/**/*.spec.{ts,tsx,js,jsx}",
+    "<rootDir>/src/*.spec.{ts,tsx,js,jsx}"
   ],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
   "testEnvironment": "jsdom"
