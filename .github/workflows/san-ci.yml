@@ -41,10 +41,14 @@ jobs:
     if: github.repository == 'design-to-release/atomic-class'
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
       - run: npm i
       - run: npm run rls
-      - run: npm publish --dry-run
+      - run: npm publish ./dist --dry-run
       - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: JS-DevTools/npm-publish@v1
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          package: ./san/dist/package.json

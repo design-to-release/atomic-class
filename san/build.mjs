@@ -5,7 +5,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import { cwd } from 'process';
 
-const files = ['package.json', 'package-lock.json'];
+const files = ['package.json'];
 const outDir = join(cwd(), './dist');
 
 if (!existsSync(outDir)) {
