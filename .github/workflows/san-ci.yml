@@ -1,4 +1,4 @@
-name: ci
+name: san ci
 
 on:
   push:
@@ -9,17 +9,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [12, 16]
+    defaults:
+      run:
+        working-directory: san
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: {{ matrix.node }}
+          node-version: 16.x
 
-      - run: cd san
       - run: npm i
       - run: npm run test
       - run: npm run build
@@ -27,5 +26,5 @@ jobs:
       - name: Upload coverage
         uses: codecov/codecov-action@v2
         with:
-          name: atomic-class-san-node${{ matrix.node }}
+          name: atomic-class-san
           files: ./coverage/lcov.info
