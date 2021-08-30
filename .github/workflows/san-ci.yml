@@ -1,0 +1,30 @@
+name: san ci
+
+on:
+  push:
+  pull_request:
+    paths:
+      - "san/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: san
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - run: npm i
+      - run: npm run test
+      - run: npm run build
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v2
+        with:
+          name: atomic-class-san
+          files: ./coverage/lcov.info

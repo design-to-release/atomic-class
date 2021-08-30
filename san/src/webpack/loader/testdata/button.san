@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import { stateHandler } from "./atomic-class.js";
+  import { stateHandler } from "atomic-class";
 
   export default {
     btnClickHandler: stateHandler("active"),

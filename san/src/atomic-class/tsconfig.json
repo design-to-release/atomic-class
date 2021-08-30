@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.lib.json",
+  "compilerOptions": {
+    "target": "ES5",
+    "outDir": "../../dist/atomic-class"
+  }
+}

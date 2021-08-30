@@ -1,0 +1,39 @@
+<template>
+  <button
+    on-actrigger="__ac0Trigger" class="bg-orange {{ $style.base }} {{ __θac0 }}"
+    on-click="btnClickHandler"
+    on-mouseenter="btnEnterHandler"
+    on-mouseleave="btnLeaveHandler"
+    
+    
+    
+  >Button</button>
+</template>
+
+<script>
+
+import { ac as __θac } from '@atomic-class/san';
+      
+        const __ac0Trigger = function (ev) {
+          __θac({"default":["bg-gray"],"active":["bg-blue"],"hover":["bg-red"]}, function (vm, s) {
+            vm.data.set('__θac0', s);
+          })(this, ev);
+        };
+        import { stateHandler } from "atomic-class";
+
+  export default {
+ 
+        __ac0Trigger,
+         btnClickHandler: stateHandler("active"),
+    btnEnterHandler: stateHandler("hover"),
+    btnLeaveHandler: stateHandler("default"),
+
+    initData() {
+      return Object.assign( {
+        $style: {
+          base: "base"
+        }
+      }, { __θac0: '' });
+    },
+  };
+</script>
