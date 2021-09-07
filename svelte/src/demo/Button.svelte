@@ -35,6 +35,6 @@
 <main>
 	<span
     bind:this={node}
-    class="bw-2 br-5 {$classes}" ac-bind={$status.states.join(' ')} rc-default="bg-gray" rc-hover="bg-red" rc-active-ol="bg-blue" >Please Press {name} !</span>
+    class="bw-2 br-5 {$classes}" ac-bind="{$status}" rc-default="bg-gray" rc-hover="bg-red" rc-active-ol="bg-blue" >Please Press {name} !</span>
 </main>
 <!-- <Icon ></Icon> -->
