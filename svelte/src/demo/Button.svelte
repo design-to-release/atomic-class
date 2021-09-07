@@ -1,25 +1,40 @@
-<script>
+<script lang=ts>
     import Icon from './Icon.svelte';
-    import { stateHandler } from '../lib/index';
+    import { writable, derived } from 'svelte/store';
+    import { createStatus } from '../lib'; // '@atomic-class/san'
+    import { createMouseUI, createKeyboardUI} from '../packages/ui/index';
+    import { css, tailwindcss} from '../packages/derive/index';
+    import { onMount, onDestroy } from 'svelte';
     export let name;
+    let status = createStatus('default');
+    let classes = derived(status, tailwindcss);
+
+
+    let node;
+    let mouseUI;
+    let keyboardUI;
+
+    onMount(() => {
+        mouseUI = createMouseUI(node, status);
+        keyboardUI = createKeyboardUI(document, status, {keycode: 65});
+    });
+
+    onDestroy(() => {
+        mouseUI.destroy();
+        keyboardUI.destroy();
+    })
+
+
+    status.setProps({
+        default: { classes: 'bg-gray', overlap: false},
+        hover: { classes: 'bg-red', overlap: false},
+        active: { classes: 'bg-blue', overlap: true},
+    });
     
-    function ui(node) {
-        const h = stateHandler("hover"), d = stateHandler("default");
-        node.addEventListener('mouseenter', h);
-        node.addEventListener('mouseleave', d);
-		return {
-			destroy() {
-                node.removeEventListener('mouseenter', h);
-                node.removeEventListener('mouseleave', d);
-            }
-		};
-	}
 </script>
 <main>
-	<button
-    use:ui
-    on:click={stateHandler("active")}
-    class="ss" rc-default="bg-gray" rc-hover="bg-red" rc-active="bg-blue" >Hello! {name}</button>
+	<span
+    bind:this={node}
+    class="bw-2 br-5 {$classes}" ac-bind={$status.states.join(' ')} rc-default="bg-gray" rc-hover="bg-red" rc-active-ol="bg-blue" >Please Press {name} !</span>
 </main>
-<Icon entityId="icon-blue"></Icon>
-<Icon ></Icon>
+<!-- <Icon ></Icon> -->

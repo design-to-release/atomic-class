@@ -24,14 +24,30 @@ export default function(options = {}) {
             const ast = svelte.parse(code, { filename: id });
             const magicContent = new MagicString(code);
             const reactiveConf = processHtml(ast.html, magicContent, options.prefix);
-            console.log(id, production);
-            const script = genScript(reactiveConf);
-            if (ast.instance) {
-                magicContent.prependLeft(ast.instance.content.start, script);
-            } else {
-                magicContent.prepend(`<script>${script}</script>`);
-            }
-            console.log(magicContent.toString());
+            console.log(id, production, reactiveConf);
+            svelte.walk(ast.instance,{
+                enter(node, parent, prop, index) {
+                    if (node.type === 'Identifier' && node.name =='classes') {
+                        console.log(parent);
+                    }
+                    
+                    // if (node.type === 'VariableDeclaration' && node.declarations) {
+                    //     node.declarations.forEach(dec => {
+                    //         if (dec.id.name === 'classes') {
+                    //             console.log(dec.init);
+                    //         }
+                            
+                    //     });
+                    // }
+                }
+            });
+            // const script = genScript(reactiveConf);
+            // if (ast.instance) {
+            //     magicContent.prependLeft(ast.instance.content.start, script);
+            // } else {
+            //     magicContent.prepend(`<script>${script}</script>`);
+            // }
+            // console.log(magicContent.toString());
             return {
                 code: magicContent.toString(),
                 map: magicContent.generateMap({ source: id }).toString(),
@@ -54,19 +70,20 @@ function processHtml(root, magicContent, prefix) {
         enter(node, parent, prop, index) {
             const states = {};
             let isReactiveNode = false;
-            let variableName = `__rc_${rcorder}`;
-            let tokenId;
+            // let variableName = `__rc_${rcorder}`;
+            // let tokenId;
             // let bindName, constBindName;
             if (node.type !== 'Element' || !node.attributes) return;
             node.attributes.forEach((item) => {
                 let name = getReactiveName(item.name);
-                if (name ==  'id') {
-                    if (item.value && item.value[0] && item.value[0].type === 'Text') {
-                        tokenId = item.value[0].raw;
-                        isReactiveNode = true;
-                        magicContent.overwrite(item.start, item.end, '');
-                    }
-                } else if (name) { // rc-active=""
+                // if (name ==  'id') {
+                //     if (item.value && item.value[0] && item.value[0].type === 'Text') {
+                //         tokenId = item.value[0].raw;
+                //         isReactiveNode = true;
+                //         magicContent.overwrite(item.start, item.end, '');
+                //     }
+                // } else
+                if (name) { // rc-active=""
                     const { strings, expressions } = separateMustacheTag(item);
                     if (expressions.length) {
                         throw new Error(`does not support expressions in reactive attribute [${expressions}]`);
@@ -77,27 +94,28 @@ function processHtml(root, magicContent, prefix) {
                 }
             });
             if (!isReactiveNode) return;
-            let findClassAttribute = false;
+            // let findClassAttribute = false;
+            let findClassToken = false;
+            let variableNames = [];
             node.attributes.forEach((item) => {
                 if (item.name == "class") { // class=""
                     const { strings, expressions } = separateMustacheTag(item);
                     states['base'] = strings;
-                    processClassAttribute(item, variableName, magicContent);
-                    findClassAttribute = true;
+                    // processClassAttribute(item, variableName, magicContent);
+                    console.log('findClassToken', expressions);
+                    variableNames = expressions.filter(e => !!e.match(/^\$/));
+                    // findClassAttribute = true;
                 }
             });
-            if (!findClassAttribute) {
-                magicContent.prependLeft(node.attributes[0].start, `class="{${variableName}}" `);
-            }
-            // if (!bindName) {
-            //     bindName = constBindName = `__this_${node.start}_${node.end}`;
-            //     magicContent.prependLeft(node.attributes[0].start, `bind:this={${bindName}} `);
+            // if (!findClassAttribute) {
+            //     magicContent.prependLeft(node.attributes[0].start, `class="{${variableName}}" `);
             // }
-            magicContent.prependLeft(node.attributes[0].start, `use:${variableName}_use `);
+            // magicContent.prependLeft(node.attributes[0].start, `use:${variableName}_use `);
             reactiveConf.push({
-                variableName,
+                // variableName,
+                variableNames,
                 rcorder,
-                tokenId,
+                // tokenId,
                 states,
             });
             rcorder++;

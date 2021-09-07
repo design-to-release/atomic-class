@@ -1,15 +1,14 @@
 {
-    "extends": "@tsconfig/svelte/tsconfig.json",
     "compilerOptions": {
       "lib": ["ESNext", "DOM"],
       "baseUrl": "src",
       "paths": {
       },
       "experimentalDecorators": true,
-      "types": ["svelte"]
     },
     "include": [
-      "**/*.ts", "**/*.css"]
+      "**/*.ts", "**/*.css" 
+    ]
     // "exclude": []
   }
   

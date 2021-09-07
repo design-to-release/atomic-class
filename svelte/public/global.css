@@ -44,6 +44,14 @@ input:disabled {
 	color: #ccc;
 }
 
+.bw-2 {
+	border-width: 2px;
+}
+
+.br-5 {
+	border-radius: 5px;
+}
+
 button {
 	color: #333;
 	background-color: #f4f4f4;
