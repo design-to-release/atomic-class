@@ -1,4 +1,4 @@
-import type { StateProps } from './type';
+import type { StateProps } from './status';
 
 export function from(node: HTMLElement) {
     const configs: StateProps = {};

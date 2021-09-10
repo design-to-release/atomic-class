@@ -34,10 +34,11 @@ export default {
 	input: 'src/demo/index.ts',
 	output: {
 		sourcemap: true,
-		format: 'amd',
+		format: 'es',
 		name: 'app',
 		file: 'public/build/bundle.js'
 	},
+	external: ['@atomic-class/core', '@atomic-class/action', '@atomic-class/process'],
 	plugins: [
         rc(),
 		svelte({

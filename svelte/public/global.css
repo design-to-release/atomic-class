@@ -5,11 +5,28 @@ html, body {
 }
 
 body {
+	background-color: #f8f8f8;
 	color: #333;
 	margin: 0;
 	padding: 8px;
 	box-sizing: border-box;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+root {
+	display: block;
+	padding: 12px;
+	margin: 20px;
+	line-height: 80px;
+	border: 1px solid #999;
+}
+
+root > * {
+	margin-right: 30px;
+}
+
+.CodeMirror {
+	min-height: 550px;
 }
 
 a {
@@ -52,32 +69,74 @@ input:disabled {
 	border-radius: 5px;
 }
 
-button {
-	color: #333;
-	background-color: #f4f4f4;
-	outline: none;
+.weight {
+	font-weight: 700
 }
 
-button:disabled {
-	color: #999;
+.text-white {
+	color: #F5F5F5
 }
 
-button:not(:disabled):active {
-	background-color: #ddd;
+.text-white-900 {
+	color: #DDDDDD
 }
 
-button:focus {
-	border-color: #666;
+.text-yellow {
+	color: rgba(255, 255, 124, 0.877)
 }
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.cursor-not-allowed {
+	cursor: not-allowed;
+}
+
+.px-12 {
+	padding-left: 12px;
+	padding-right: 12px;
+}
+
+.py-5 {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.py-12 {
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
 .bg-red {
-	background-color: red;
+	background-color: #8a0022;
 }
+
 .bg-blue {
-	background-color: rgb(86, 201, 255);
+	background-color: rgb(7, 130, 187);
 }
-.bg-gray {
-	background: gray;
+
+.bg-black-400 {
+	background: #808080;
 }
+
+
+.bg-black-700 {
+	background: #555555;
+}
+
+.bg-purple {
+	background: purple
+}
+
 .bg-orange {
-	background: orange;
+	background: rgb(255, 179, 37)
+}
+
+.bg-greenyellow {
+	background: rgb(250, 205, 7)
+}
+
+.bg-green {
+	background: rgb(118, 196, 1)
 }

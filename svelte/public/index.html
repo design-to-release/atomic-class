@@ -3,17 +3,65 @@
 <head>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
-
 	<title>Svelte app</title>
-
-	<link rel='icon' type='image/png' href='/favicon.png'>
-	<script src='./esl.js'></script>
-	<link rel='stylesheet' href='/global.css'>
-	<link rel='stylesheet' href='/build/bundle.css'>
-
-	<script src='./main.js'></script>
+	<link rel='stylesheet' href='/svelte/public/global.css'>
+	<link rel='stylesheet' href='/svelte/node_modules/codemirror/lib/codemirror.css'>
+	<script src="/svelte/node_modules/codemirror/lib/codemirror.js"></script>
+	<script src="/svelte/node_modules/codemirror/addon/edit/matchbrackets.js"></script>
+	<script src="/svelte/node_modules/codemirror/mode/javascript/javascript.js"></script>
+	<!-- <link rel='stylesheet' href='/svelte/public/build/bundle.css'> -->
+	<script type="importmap">
+		{
+			"imports": {
+				"@atomic-class/core": "/packages/core/dist/es.js",
+				"@atomic-class/process": "/packages/process/dist/es.js",
+				"@atomic-class/action": "/packages/action/dist/es.js"
+			}
+		}
+	</script>
+	<script src='/svelte/public/main.mjs' type="module"></script>
 </head>
 
 <body>
+	<textarea id="editor" style="display: none;">
+var root = document.querySelector('root');
+
+const button = new Button({
+	target: root,
+	props: {
+		keycode: 65,
+		text: 'Please Press A',
+	},
+});
+		
+const buttonDisabled = new Button({
+	target: root,
+	props: {
+		keycode: 66,
+		text: 'Please Press B',
+		state: ['disable']
+	},
+});
+		
+const buttonCustom = new Button({
+	target: root,
+	props: {
+		keycode: 67,
+		text: 'Please Press C',
+		props: {
+			base: { classes: 'text-yellow'},
+			default: { classes: 'bg-green', overlap: false},
+			hover: { classes: 'bg-greenyellow cursor-pointer', overlap: false},
+			active: { classes: 'bg-orange', overlap: true},
+			disable: { classes: 'bg-black-400 text-white-900  cursor-not-allowed', overlap: true},
+		}
+	},
+});
+	</textarea>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			if (!window.Button) document.querySelector('div').innerHTML = 'Error: Please compile /packages/**';
+		});
+	</script>
 </body>
 </html>

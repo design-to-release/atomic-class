@@ -8,20 +8,25 @@
     "preinstall:all": "npx only-allow pnpm",
     "build": "rollup -c ./src/demo/rollup.config.js",
     "dev": "rollup -c ./src/demo/rollup.config.js -w --environment moduleId:../lib",
-    "start": "sirv public --no-clear"
+    "start": "sirv ../ --no-clear"
   },
   "dependencies": {
+    "@atomic-class/core": "^0.0.1",
+    "@atomic-class/process": "^0.0.1",
     "@rollup/pluginutils": "^3.0.10",
     "acorn": "^8.4.1",
     "astring": "^1.7.5",
     "magic-string": "^0.25.7",
+    "rxjs": "^7.3.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@atomic-class/action": "^0.1.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.2.3",
     "@tsconfig/svelte": "^2.0.1",
+    "codemirror": "^5.62.3",
     "only-allow": "^1.0.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",

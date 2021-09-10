@@ -1,40 +1,47 @@
 <script lang=ts>
+    import { onMount } from 'svelte';
+    import { writable } from 'svelte/store';
+
+    import { mouse, keyboard } from '@atomic-class/action';
+    import { tailwindcss} from '@atomic-class/process';
+    import { Status } from '@atomic-class/core';
+
     import Icon from './Icon.svelte';
-    import { writable, derived } from 'svelte/store';
-    import { createStatus } from '../lib'; // '@atomic-class/san'
-    import { createMouseUI, createKeyboardUI} from '../packages/ui/index';
-    import { css, tailwindcss} from '../packages/derive/index';
-    import { onMount, onDestroy } from 'svelte';
-    export let name;
-    let status = createStatus('default');
-    let classes = derived(status, tailwindcss);
 
-
-    let node;
-    let mouseUI;
-    let keyboardUI;
+    export let text;
+    export let keycode;
+    export let state = ['default'];
+    export let props = {
+        default: { classes: 'bg-black-700', overlap: false},
+        hover: { classes: 'bg-blue cursor-pointer', overlap: false},
+        active: { classes: 'bg-purple', overlap: true},
+        disable: { classes: 'bg-black-400 text-white-900  cursor-not-allowed', overlap: true},
+    };
+    
+    $: status = new Status(props, state);
+    $: classes = tailwindcss(status)
 
     onMount(() => {
-        mouseUI = createMouseUI(node, status);
-        keyboardUI = createKeyboardUI(document, status, {keycode: 65});
+        document.addEventListener('keydown', keyboardHandler);
+        document.addEventListener('keyup', keyboardHandler);        
     });
 
-    onDestroy(() => {
-        mouseUI.destroy();
-        keyboardUI.destroy();
-    })
-
-
-    status.setProps({
-        default: { classes: 'bg-gray', overlap: false},
-        hover: { classes: 'bg-red', overlap: false},
-        active: { classes: 'bg-blue', overlap: true},
-    });
-    
+    function mouseHandler(event) {
+        status = mouse({status, event});
+    }
+    function mouseAction(node) {
+        node.addEventListener('mouseenter', mouseHandler);
+        node.addEventListener('mouseleave', mouseHandler);
+    }
+    function keyboardHandler(event) {
+        status = keyboard({status, event, keycode});
+    }
+    let iconType = writable(status);
 </script>
-<main>
-	<span
-    bind:this={node}
-    class="bw-2 br-5 {$classes}" ac-bind="{$status}" rc-default="bg-gray" rc-hover="bg-red" rc-active-ol="bg-blue" >Please Press {name} !</span>
-</main>
-<!-- <Icon ></Icon> -->
+<span
+    use:mouseAction
+    ac-props={props} on:mousedown={mouseHandler} on:mouseup={mouseHandler}
+    class="px-12 py-5 bw-2 br-5 text-white weight {classes}"
+    ac-default="bg-black-700" ac-hover="bg-blue cursor-pointer" ac-active-ol="bg-purple" ac-disable-ol="bg-black-400 text-white-900 cursor-not-allowed">
+    <Icon type={ state.includes('disable') ? 1 : 0 } ></Icon> 
+    {text}</span>

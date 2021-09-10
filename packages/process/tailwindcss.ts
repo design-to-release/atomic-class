@@ -1,10 +1,10 @@
-import type { Status } from '../core/type';
+import type { Status } from '../core';
 
 export default function(status: Status) {
     const rs: any[] = [];
     const classes: string[] = [];
     const cls = [];
-    status.states.forEach(state => {
+    ['base', ...status.states].forEach(state => {
         const c = status.props[state]?.classes || '';
         const l: any = {};
         c.split(/\s/).forEach(className => {
