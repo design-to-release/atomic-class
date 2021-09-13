@@ -2,6 +2,9 @@ name: san ci
 
 on:
   push:
+    paths:
+      - ".github/workflows/san-ci.yml"
+      - "san/**"
   pull_request:
     paths:
       - ".github/workflows/san-ci.yml"
