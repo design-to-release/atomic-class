@@ -18,7 +18,7 @@ module.exports = {
         test: /\.san$/,
         use: [
           { loader: 'san-loader', options: { esModule: true } },
-          { loader: AtomicClassSanWebpack.loader, options: { dbg: true } },
+          { loader: AtomicClassSanWebpack.loader, options: { dbg: false } },
         ],
       },
       {
@@ -41,6 +41,6 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({ template: './index.html' }),
     new SanLoaderPlugin({ esModule: true }),
-    new AtomicClassSanWebpack.Plugin({ css: { paths: ['./global.css'] } }),
+    new AtomicClassSanWebpack.Plugin({ css: { paths: ['./preset.css'], treeShaking: false } }),
   ],
 };

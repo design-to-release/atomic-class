@@ -5,6 +5,9 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@atomic-class/action": "file:../../../packages/action",
+    "@atomic-class/core": "file:../../../packages/core",
+    "@atomic-class/process": "file:../../../packages/process",
     "@atomic-class/san": "file:../../dist"
   },
   "devDependencies": {

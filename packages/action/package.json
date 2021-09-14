@@ -6,8 +6,6 @@
   "browser": "dist/umd.js",
   "esnext": "dist/es.js",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "preinstall:all": "npx only-allow pnpm",
     "build": "npm run build:umd && npm run build:es",
     "build:umd": "rollup -c ../rollup.config.js --environment format:umd",
     "build:es": "rollup -c ../rollup.config.js --environment format:es",

@@ -1,15 +1,27 @@
 import type { TreeConstructor } from 'hyntax';
 import type { LoaderContext } from 'webpack';
 
+import hash from 'hash-sum';
 import { constructTree, tokenize } from 'hyntax';
 import MagicString from 'magic-string';
-import { Project } from 'ts-morph';
+import { Project, SyntaxKind } from 'ts-morph';
 import { PluginSymbol } from '../plugin';
-import { expandsReturnStmt, getIninDataReturnStmt } from './ast/script';
+import { getIninDataReturnStmt } from './ast/script';
+
+const enum ACKey {
+  NS = 'ac-',
+  Props = 'ac-props',
+}
 
 export default async function(this: LoaderContext<{ dbg: boolean }>, contents: string): Promise<string> {
   const loaderContext = this;
   const options = loaderContext.getOptions();
+
+  const adoptedClasses: Set<string> | undefined = loaderContext[PluginSymbol]?.adoptedClasses;
+
+  if (!adoptedClasses) {
+    console.warn('\x1B[33mAtomic Class Webpack Plugin maybe missing!\x1B[39m');
+  }
 
   const magicContent = new MagicString(contents);
   const { tokens } = tokenize(contents);
@@ -26,81 +38,116 @@ export default async function(this: LoaderContext<{ dbg: boolean }>, contents: s
     return contents;
   }
 
-  let stack = [tpl];
-  let usedIndex = 0;
-  const sheetRegistries: Array<Record<string, string[] | undefined>> = [];
-  for (let curr = tpl.content, i = 0; i < stack.length; ++i) {
-    curr = stack[i].content;
+  interface ACProp {
+    classes: string;
+    overlap: boolean;
+  }
+  type ACProps = Record<string, ACProp>;
+  interface ACPropsVarFlag {
+    id: string;
+    userDefinedName?: string;
+  }
+
+  // Key: definition of var
+  // Value: props
+  const elProps = new WeakMap<ACPropsVarFlag, ACProps>();
+
+  // Valid var definitions, in order to preserve the reference,
+  // so that the data in the WeakMap is not destroyed.
+  // It is also a map that maintains the mapping between
+  // user-defined variable names and ACPropsVarFlag,
+  // which is used to query ACProps in TypeScript AST
+  // by the `Identifier` of `PropertyAssignment`.
+  const validPropsVarDefs = new Map<string, ACPropsVarFlag>();
+
+  // The children of the current element will be added
+  // to the end of the stack, and the pointer will keep moving forward
+  const stack = [tpl];
+  for (let usedIndex = 0, i = 0; i < stack.length; ++i) {
+    let curr = stack[i].content;
+
+    // If the user defines a variable and passes it into the `ac-props`,
+    // then we will extract the contents of the current element all attributes
+    // that start with `ac-*`, and use them as the content of the variable.
+    const elPropsVarFuture: ACPropsVarFlag = {
+      id: `_ac_props_${usedIndex}_${hash(curr)}`,
+    };
+
+    const currElProps: ACProps = {};
+    elProps.set(elPropsVarFuture, currElProps);
+
     if (curr.children) {
       stack.push(...curr.children.filter((i) => i.nodeType === 'tag') as TreeConstructor.TagNode[]);
     }
 
     if (curr.attributes) {
-      let needInject = false;
-      let classAttrNode = undefined;
       for (const attr of curr.attributes) {
-        if (attr.key?.content.startsWith('ac-')) {
-          const usedClasses = attr.value?.content.split(' ').filter(i => {
-            if (i) {
-              loaderContext[PluginSymbol].adoptedClasses.add(i);
-              return true;
-            }
+        const attrKey = attr.key!.content;
 
-            return false;
-          });
-          needInject = true;
+        // Process ac-props
+        if (attrKey === ACKey.Props) {
+          elPropsVarFuture.userDefinedName = attr.value?.content;
           magicContent.overwrite(
-            attr.key.startPosition,
-            (attr.endWrapper?.endPosition ?? attr.key.startPosition) + 1,
+            attr.key!.startPosition,
+            attr.endWrapper!.endPosition + 1,
+            '',
+          );
+        } // Process ac-* except ac-props
+        else if (attrKey.startsWith(ACKey.NS)) {
+          magicContent.overwrite(
+            attr.key!.startPosition,
+            attr.endWrapper!.endPosition + 1,
             '',
           );
 
-          if (!sheetRegistries[usedIndex]) {
-            sheetRegistries[usedIndex] = {};
+          // Examples:
+          //   ac-active-ol => ['active', 'ol']
+          //   ac-active => ['active', undefined]
+          const [state, olFlag] = attr.key!.content.split('-').slice(1) as [string, string?];
+          currElProps[state] = {
+            classes: attr.value?.content.trim() ?? '',
+            overlap: olFlag ? true : false,
+          };
+        } // Only for collecting used class names.
+        else if (attrKey === 'class') {
+          // `{{(.*?)}}` is used to exclude variables from the template.
+          const classes = attr.value?.content.replace(/{{(.*?)}}/g, '').trim().split(/\s+/);
+          if (classes) {
+            for (const cls of classes) {
+              adoptedClasses?.add(cls);
+            }
           }
-          sheetRegistries[usedIndex][attr.key.content.slice(3)] = usedClasses;
-        } else if (attr.key?.content === 'class') {
-          classAttrNode = attr;
         }
       }
-      if (needInject) {
-        let startPos = curr.openStart.endPosition;
-        let endPos = -1;
-        const cls = `class="${classAttrNode?.value?.content
-          ?? ''} {{ __θac${usedIndex} }}"`;
-        if (classAttrNode) {
-          startPos = classAttrNode.key?.startPosition ?? 0;
-          endPos = classAttrNode.endWrapper?.endPosition ?? 0;
-        }
-        const event = `on-actrigger="__ac${usedIndex}Trigger"`;
+      if (elPropsVarFuture.userDefinedName) {
+        ++usedIndex;
+        validPropsVarDefs.set(elPropsVarFuture.userDefinedName, elPropsVarFuture);
+      }
+    }
+  }
 
-        if (endPos === -1) {
-          magicContent.appendRight(startPos + 1, ` ${event} ${cls} `);
-        } else {
-          magicContent.overwrite(startPos, endPos + 1, `${event} ${cls}`);
-        }
-
-        usedIndex++;
+  // Extracts the used class names.
+  //
+  // ============= WARNING =============
+  // Be sure to be alert to the potential
+  // performance problems caused by for loop nesting!!!
+  // ============= WARNING =============
+  //
+  for (const [_, def] of validPropsVarDefs) {
+    const props = Object.values(elProps.get(def)!);
+    for (const prop of props) {
+      // After ensuring that there are no extra spaces
+      // at the beginning and end of classes,
+      // we can omit the filter operator.
+      const classes = prop.classes.split(/\s+/);
+      for (const cls of classes) {
+        adoptedClasses?.add(cls);
       }
     }
   }
 
   if (script) {
     const basePos = script.content.value.startPosition;
-
-    magicContent.appendRight(
-      basePos + 1,
-      `\r\nimport { ac as __θac } from '@atomic-class/san';
-      ${
-        Array(usedIndex).fill(0).map((_, i) => `
-        const __ac${i}Trigger = function (ev) {
-          __θac(${JSON.stringify(sheetRegistries[i])}, function (vm, s) {
-            vm.data.set('__θac0', s);
-          })(this, ev);
-        };
-      `).join('\r\n')
-      }`,
-    );
 
     const proj = new Project();
     const sourceFile = proj.createSourceFile(
@@ -110,23 +157,17 @@ export default async function(this: LoaderContext<{ dbg: boolean }>, contents: s
 
     const exportAssignment = sourceFile.getExportAssignment((i) => !i.isExportEquals())!;
     const returnStmt = getIninDataReturnStmt(exportAssignment);
-
-    expandsReturnStmt(
-      magicContent,
-      returnStmt,
-      `{ ${Array(usedIndex).fill(0).map((_, i) => `__θac${i}: ''`).join(',')} }`,
-      basePos,
+    const acPropsAssignments = returnStmt.getDescendantsOfKind(SyntaxKind.PropertyAssignment).filter(i =>
+      validPropsVarDefs.has(i.getName())
     );
 
-    // Inject event handlers
-    magicContent.appendRight(
-      basePos + (exportAssignment.getStart() ?? 0) + 18,
-      `${
-        Array(usedIndex).fill(0).map((_, i) => `
-        __ac${i}Trigger,
-      `).join('')
-      }`,
-    );
+    for (const i of acPropsAssignments) {
+      const name = i.getName();
+      const props = elProps.get(validPropsVarDefs.get(name)!)!;
+      const startPos = basePos + i.getStart();
+      const endPos = basePos + i.getEnd();
+      magicContent.overwrite(startPos, endPos, `${name}: ${JSON.stringify(props)}`);
+    }
   }
 
   contents = magicContent.toString();
