@@ -23,7 +23,9 @@ jobs:
           node-version: 16.x
 
       - run: cp -r ./demo ./docs
-      - run: sed 's/"\/packages\//"https:\/\/unpkg.com\/@atomic-class\//g' ./docs/dev.html > ./docs/index.html
+      - run: sed 's/"\/packages\//"https:\/\/unpkg.com\/@atomic-class\//g' ./docs/dev.html > ./docs/index.0.html
+      - run: sed 's/<base href="\/demo\/" \/>//g' ./demo/index.0.html > ./demo/index.html
+      - run: rm ./docs/dev.html ./docs/index0.html
 
       - name: Deploy docs
         if: github.event_name == 'push'
