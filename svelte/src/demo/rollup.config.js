@@ -36,7 +36,7 @@ export default {
 		sourcemap: true,
 		format: 'es',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: '../demo/svelte/dist.js'
 	},
 	external: ['@atomic-class/core', '@atomic-class/action', '@atomic-class/process'],
 	plugins: [

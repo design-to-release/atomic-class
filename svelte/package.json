@@ -8,11 +8,9 @@
     "preinstall:all": "npx only-allow pnpm",
     "build": "rollup -c ./src/demo/rollup.config.js",
     "dev": "rollup -c ./src/demo/rollup.config.js -w --environment moduleId:../lib",
-    "start": "sirv ../ --no-clear"
+    "start": "cd .. && sirv ./ --environment --dev --single ./demo/dev.html"
   },
   "dependencies": {
-    "@atomic-class/core": "^0.0.1",
-    "@atomic-class/process": "^0.0.1",
     "@rollup/pluginutils": "^3.0.10",
     "acorn": "^8.4.1",
     "astring": "^1.7.5",
@@ -21,6 +19,8 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@atomic-class/core": "^0.0.1",
+    "@atomic-class/process": "^0.0.1",
     "@atomic-class/action": "^0.1.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
