@@ -1,6 +1,6 @@
 export const script = `
 import { defineComponent } from "san";
-import Button from "/demo/san/button.js";
+import { Button } from "@atomic-class/san/demo";
 
 const MyApp = defineComponent({
   template: \`
