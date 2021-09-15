@@ -28,20 +28,25 @@
 
 <body>
 	<div class="app">
-		<div class="header">
+		<header class="header">
 			<div class="title">Atomic Class REPL </div>
-			<div class="links">
+			<nav class="links">
 				<a href="./?lang=angular" class="angular disabled">Angular</a>
 				<a href="./?lang=react" class="react disabled">React</a>
 				<a href="./?lang=svelte" class="svelte">Svelte</a>
 				<a href="./?lang=san" class="san">San</a>
 				<a href="./?lang=vue" class="vue disabled">Vue</a>
 				<a href="https://github.com/design-to-release/atomic-class" class="github">Github<img src="./assets/github.svg" ></img></a>
+			</nav>
+		</header>
+		<main>
+			<div class="sidebar"></div>
+			<div class="workspace">
+				<div class="root"></div>
+				<div class="editor"></div>
+				<div class="console"></div>
 			</div>
-		</div>
-		<div class="root"></div>
-		<div class="editor"></div>
-		<div class="console"></div>
+		</main>
 	</div>
 	<div class="loading">
 		<span></span>
