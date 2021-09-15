@@ -1,4 +1,4 @@
-export const script = `
+const Button = `
 import { defineComponent } from "san";
 import { Button } from "@atomic-class/san/demo";
 
@@ -63,3 +63,7 @@ const MyApp = defineComponent({
 const myApp = new MyApp();
 myApp.attach(document.querySelector(".root"));
 `;
+
+export const script = {
+  Button,
+};

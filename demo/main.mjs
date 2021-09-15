@@ -1,11 +1,11 @@
 import { initEditor } from './editor.mjs';
 
-const lang = location.search.match(/lang=(\w+)/);
-let target;
+const searchParams = new URLSearchParams(location.search);
+const lang = searchParams.get('lang');
+const component = searchParams.get('cpnt');
 const loading = document.querySelector('.loading');
 if (lang) {
-    target = lang[1];
-    document.querySelector(`.${target}`).classList.add('active');
+    document.querySelector(`.${lang}`).classList.add('active');
     loading.style.display = 'block';
     import('@atomic-class/core').then(() => { success(1);
     import('@atomic-class/process').then(() => { success(2);
@@ -17,14 +17,17 @@ if (lang) {
         import('@codemirror/lang-javascript').then(() => { success(6);
         import('@codemirror/view').then(() => { success(7);
 
-            import(`./${target}/entry.mjs`).then(module => {
+            import(`./${lang}/entry.mjs`).then(module => {
                 log(`<sug>Demo has been loaded successfully!</sug>`);
                 loading.style.display = 'none';
-                const script = module.script || 'console.log("Hello, World!");'
-                initEditor(script, function(code) {
+                const script = module.script;
+                const supportedComponents = Object.keys(script);
+                document.querySelector('.sidebar').innerHTML = supportedComponents.map(i => `<a href="./?lang=${lang}&cpnt=${i}">${i}</a>`);
+                const activeScript = script[component] ?? script[supportedComponents[0]];
+                initEditor(activeScript, function(code) {
                     exec(code);
                 });
-                exec(script, true);
+                exec(activeScript, true);
             }).catch(demoHandler);
             
         }).catch(cdnHandler);
@@ -63,7 +66,7 @@ function success(index) {
         '@codemirror/state',
         '@codemirror/lang-javascript',
         '@codemirror/view',
-        `./${target}/main.mjs`
+        `./${lang}/main.mjs`
     ];
     log(`<div>[${index + 1}/${text.length}] ${text[index]} has been loaded successfully...</div><div>${text[index]} is loading now...</div>`);
 }
@@ -72,13 +75,13 @@ function log(msg) {
 }
 
 function coreHandler(err) {
-    log(`<div><error>${err}</error></div><div>Build Core Please: <sug>cd ../packages/core && pnpm install && pnpm run build && cd ../../${target}</sug></div>`);
+    log(`<div><error>${err}</error></div><div>Build Core Please: <sug>cd ../packages/core && pnpm install && pnpm run build && cd ../../${lang}</sug></div>`);
 }
 function processHandler(err) {
-    log(`<div><error>${err}</error></div><div>Build Process Please: <sug>cd ../packages/process && pnpm install && pnpm run build && cd ../../${target}</sug></div>`);
+    log(`<div><error>${err}</error></div><div>Build Process Please: <sug>cd ../packages/process && pnpm install && pnpm run build && cd ../../${lang}</sug></div>`);
 }
 function actionHandler(err) {
-    log(`<div><error>${err}</error></div><div>Build Action Please: <sug>cd ../packages/action && pnpm install && pnpm run build && cd ../../${target}</sug></div>`);
+    log(`<div><error>${err}</error></div><div>Build Action Please: <sug>cd ../packages/action && pnpm install && pnpm run build && cd ../../${lang}</sug></div>`);
 }
 function polyfillHandler(err) {
     log(`<div><error>${err}</error></div><div>Unpack ES module error, <sug>please check your network or proxy, then retry again.</sug></div>`);
@@ -88,7 +91,7 @@ function cdnHandler(err) {
 }
 function demoHandler(err) {
     console.log(err);
-    log(`<div><error>${err}</error></div><div>Load module fail: <sug>please make sure /${target}/ has been compiled!</sug></div>`);
+    log(`<div><error>${err}</error></div><div>Load module fail: <sug>please make sure /${lang}/ has been compiled!</sug></div>`);
 }
 function execHandler(err){
     log(`<div><error>${err}</error></div>`);

@@ -1,4 +1,4 @@
-export const script = `
+export const Button = `
 import { Button } from '@atomic-class/svelte/demo';
 
 const button = new Button({
@@ -26,3 +26,7 @@ const buttonCustom = new Button({
 	},
 });
 `;
+
+export const script = {
+	Button,
+};
