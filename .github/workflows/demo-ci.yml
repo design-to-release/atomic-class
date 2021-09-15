@@ -22,10 +22,11 @@ jobs:
         with:
           node-version: 16.x
 
-      - run: cp -r ./demo ./docs
-      - run: sed 's/"\/packages\//"https:\/\/unpkg.com\/@atomic-class\//g' ./docs/dev.html > ./docs/index.0.html
-      - run: sed 's/"\/demo\//"\/atomic-class\//g' ./docs/index.0.html > ./docs/index.html
-      - run: rm ./docs/dev.html ./docs/index.0.html
+      - run: |
+          cp -r ./demo ./docs
+          sed 's/"\/packages\//"https:\/\/unpkg.com\/@atomic-class\//g' ./docs/dev.html > ./docs/index.0.html
+          sed 's/"\/demo\//"\/atomic-class\//g' ./docs/index.0.html > ./docs/index.html
+          rm ./docs/dev.html ./docs/index.0.html
 
       - name: Deploy docs
         if: github.event_name == 'push'

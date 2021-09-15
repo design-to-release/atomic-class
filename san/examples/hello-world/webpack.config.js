@@ -4,6 +4,7 @@ const AtomicClassSanWebpack = require('@atomic-class/san/webpack');
 
 const { join } = require('path');
 
+/** @type {import('webpack').Configuration} */
 module.exports = {
   entry: join(__dirname, './src/main.js'),
   output: {

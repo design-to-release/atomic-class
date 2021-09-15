@@ -7,10 +7,10 @@
   "dependencies": {
     "@atomic-class/action": "file:../../../packages/action",
     "@atomic-class/core": "file:../../../packages/core",
-    "@atomic-class/process": "file:../../../packages/process",
-    "@atomic-class/san": "file:../../dist"
+    "@atomic-class/process": "file:../../../packages/process"
   },
   "devDependencies": {
+    "@atomic-class/san": "file:../../dist",
     "@babel/core": "^7.15.0",
     "babel-loader": "^8.2.2",
     "css-loader": "^6.2.0",
