@@ -28,10 +28,10 @@ A reactive framework for component to control classsheet.
     class="px-12 py-5 bw-2 br-5 text-white weight {classes}"
 
     ac-props={props}
-    ac-default="bg-black-700"
-    ac-hover="bg-blue cursor-pointer"
+    ac-default="bg-black-700" ac-hover="bg-blue cursor-pointer"
     ac-active-ol="bg-purple"
-    ac-disable-ol="bg-black-400 text-white-900 cursor-not-allowed"> {text} </span>
+    ac-disable-ol="bg-black-400 text-white-900 cursor-not-allowed">{text}
+</span>
 ```
 
 
@@ -56,14 +56,13 @@ After Compile:
     function mouseHandler(event) {
         status = mouse({status, event});
     }
-
     export let text;
 </script>
 <span
     on:mousedown={mouseHandler} on:mouseup={mouseHandler}
     on:mouseenter={mouseHandler} on:mouseleave={mouseHandler}
-    class={classes} >{text}</span>
-
+    class={classes} >{text}
+</span>
 ```
 
 You can try this demo in [Atomic Class REPL](https://design-to-release.github.io/atomic-class/?lang=svelte).
@@ -90,13 +89,13 @@ You can try this demo in [Atomic Class REPL](https://design-to-release.github.io
             .pipe(tailwindcss)
             .subscribe(rs => classes = rs);
     }
+    export let text;
 </script>
 <span
     use:mouseAction
     class="px-12 py-5 bw-2 br-5 text-white weight {classes}"
     ac-props={props}
-    ac-default="bg-black-700"
-    ac-hover="bg-blue cursor-pointer"
+    ac-default="bg-black-700" ac-hover="bg-blue cursor-pointer"
     ac-active-ol="bg-purple"
     ac-disable-ol="bg-black-400 text-white-900 cursor-not-allowed">
     {text}
