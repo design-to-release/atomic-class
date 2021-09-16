@@ -2,7 +2,7 @@
     "extends": "@tsconfig/svelte/tsconfig.json",
     "compilerOptions": {
       "lib": ["ESNext", "DOM"],
-      "baseUrl": "src",
+      "baseUrl": "demo",
       "paths": {
       },
       "experimentalDecorators": true,

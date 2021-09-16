@@ -1,13 +1,13 @@
 {
   "name": "@atomic-class/svelte",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A reactive framework for component to control classsheet",
-  "main": "dist/index.js",
+  "main": "rollup/index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "preinstall:all": "npx only-allow pnpm",
-    "build": "rollup -c ./src/demo/rollup.config.js",
-    "dev": "rollup -c ./src/demo/rollup.config.js -w --environment moduleId:../lib",
+    "build": "rollup -c ./demo/rollup.config.js",
+    "dev": "rollup -c ./demo/rollup.config.js -w --environment moduleId:../lib",
     "start": "cd .. && sirv ./ --environment --dev --single ./demo/dev.html"
   },
   "dependencies": {
@@ -49,5 +49,10 @@
   ],
   "homepage": "https://github.com/design-to-release/atomic-class",
   "repository": "design-to-release/atomic-class",
-  "license": "MIT"
+  "license": "MIT",
+  "files": [
+    "rollup",
+    "*.json",
+    "*.md"
+  ]
 }

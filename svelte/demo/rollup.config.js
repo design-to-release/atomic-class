@@ -5,7 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 import typescript from '@rollup/plugin-typescript';
-import rc from '../plugin/index';
+import ac from '../rollup/index';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -31,7 +31,7 @@ function serve() {
 }
 
 export default {
-	input: 'src/demo/index.ts',
+	input: 'demo/index.ts',
 	output: {
 		sourcemap: true,
 		format: 'es',
@@ -40,7 +40,7 @@ export default {
 	},
 	external: ['@atomic-class/core', '@atomic-class/action', '@atomic-class/process'],
 	plugins: [
-        rc(),
+        ac(),
 		svelte({
 			compilerOptions: {
 				// enable run-time checks when not in production

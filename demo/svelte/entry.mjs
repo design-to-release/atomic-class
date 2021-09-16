@@ -17,7 +17,7 @@ const buttonCustom = new Button({
 		keycode: 67,
 		text: 'Please Press C',
 		props: {
-			base: { classes: 'text-yellow'},
+			base: { classes: 'px-12 py-5 bw-2 br-5 text-white weight text-yellow'},
 			default: { classes: 'bg-green', overlap: false},
 			hover: { classes: 'bg-greenyellow cursor-pointer', overlap: false},
 			active: { classes: 'bg-orange', overlap: true},
