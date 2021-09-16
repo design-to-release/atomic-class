@@ -68,6 +68,42 @@ After Compile:
 
 You can try this demo in [Atomic Class REPL](https://design-to-release.github.io/atomic-class/?lang=svelte).
 
+### Working With RxJS
+
+```svelte
+<script lang=ts>
+    import { mouse, keyboard } from '@atomic-class/action';
+    import { tailwindcss} from '@atomic-class/process';
+    import { Status } from '@atomic-class/core';
+    import { from, fromEvent, map } from 'rxjs'
+
+    export let keycode;
+    export let state = ['default'];
+    export let props;
+    
+    $: status = new Status(props, state);
+
+    function mouseAction(node) {
+        fromEvent(node, 'mouseup')
+            .pipe(map(mouse))
+            .pipe(map(states => ({states, status})))
+            .pipe(tailwindcss)
+            .subscribe(rs => classes = rs);
+    }
+</script>
+<span
+    use:mouseAction
+    class="px-12 py-5 bw-2 br-5 text-white weight {classes}"
+    ac-props={props}
+    ac-default="bg-black-700"
+    ac-hover="bg-blue cursor-pointer"
+    ac-active-ol="bg-purple"
+    ac-disable-ol="bg-black-400 text-white-900 cursor-not-allowed">
+    {text}
+</span>
+
+```
+
 ## Configuration
 
 ```
