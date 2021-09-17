@@ -3,27 +3,10 @@
 <head>
 	<meta charset='utf-8'>
 	<meta name='viewport' content='width=device-width,initial-scale=1'>
-	<base href="/atomic-class/" />
+	<base href="/atomic-class/">
 	<title>Atomic Class</title>
 	<link rel='stylesheet' href='./assets/global.css'>
 	<link rel='stylesheet' href='./assets/demo.css'>
-	<script type="importmap">
-		{
-			"imports": {
-				"@codemirror/view": "https://esm.sh/@codemirror/view",
-				"@codemirror/lang-javascript": "https://esm.sh/@codemirror/lang-javascript",
-				"@codemirror/state": "https://esm.sh/@codemirror/state",
-				"@codemirror/basic-setup": "https://esm.sh/@codemirror/basic-setup",
-				"@atomic-class/svelte/demo": "/atomic-class/svelte/dist.js",
-				"@atomic-class/core": "https://unpkg.com/@atomic-class/core/dist/es.js",
-				"@atomic-class/process": "https://unpkg.com/@atomic-class/process/dist/es.js",
-				"@atomic-class/action": "https://unpkg.com/@atomic-class/action/dist/es.js",
-				"san": "https://cdn.skypack.dev/san@3.10.10",
-				"@atomic-class/san/demo": "/atomic-class/san/components.js"
-			}
-		}
-	</script>
-	<script src='./main.mjs' type="module"></script>
 </head>
 
 <body>
@@ -55,5 +38,29 @@
 		<span></span>
 		<span></span>
 	</div>
+
+	<script type="importmap">
+		{
+			"imports": {
+				"@atomic-class/": "./packages/",
+
+				// Extension-less
+				"@atomic-class/core": "./packages/core/mod.js",
+				"@atomic-class/process": "./packages/process/mod.js",
+				"@atomic-class/action": "./packages/action/mod.js",
+				"@atomic-class/playground/san-components": "./packages/playground/san-components/mod.js",
+				"@atomic-class/playground/svelte-components": "./packages/playground/svelte-components/mod.js",
+
+				// CDN
+				"skypack/": "https://cdn.skypack.dev/",
+				"unpkg/": "https://unpkg.com/",
+				"esm.sh/": "https://esm.sh/",
+
+				// External
+				"@codemirror/": "https://esm.sh/@codemirror/"
+			}
+		}		
+	</script>
+	<script src="./main.mjs" type="module"></script>
 </body>
 </html>

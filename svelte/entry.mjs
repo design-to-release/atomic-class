@@ -1,5 +1,5 @@
 export const Button = `
-import { Button } from '@atomic-class/svelte/demo';
+import { Button } from '@atomic-class/playground/svelte-components';
 
 const button = new Button({
 	target: root,
