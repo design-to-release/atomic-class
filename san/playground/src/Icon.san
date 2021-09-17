@@ -1,0 +1,14 @@
+<template>
+  <span>{{ icon[type] }}</span>
+</template>
+
+<script>
+export default {
+  initData() {
+    return {
+      icon: "☑☒★☆♂♀☎☏✄☪☣☢☠♨",
+      type: 0,
+    };
+  },
+};
+</script>

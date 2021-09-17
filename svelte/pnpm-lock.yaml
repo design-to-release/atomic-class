@@ -26,8 +26,6 @@ specifiers:
   typescript: ^4.3.5
 
 dependencies:
-  '@atomic-class/core': 0.0.1_rollup@2.53.3
-  '@atomic-class/process': 0.0.1_rollup@2.53.3
   '@rollup/pluginutils': 3.1.0_rollup@2.53.3
   acorn: 8.4.1
   astring: 1.7.5
@@ -37,6 +35,8 @@ dependencies:
 
 devDependencies:
   '@atomic-class/action': 0.1.0_rollup@2.53.3
+  '@atomic-class/core': 0.0.1_rollup@2.53.3
+  '@atomic-class/process': 0.0.1_rollup@2.53.3
   '@rollup/plugin-commonjs': 17.1.0_rollup@2.53.3
   '@rollup/plugin-node-resolve': 11.2.1_rollup@2.53.3
   '@rollup/plugin-typescript': 8.2.3_3f094f9f97de35eb8823668832f9fdfa
@@ -78,7 +78,7 @@ packages:
       tslib: 2.3.0
     transitivePeerDependencies:
       - rollup
-    dev: false
+    dev: true
 
   /@atomic-class/process/0.0.1_rollup@2.53.3:
     resolution: {integrity: sha512-dRO8NQ37B6t4wQr+i7xN0aiKnqN/gjdIY+HYvA7Qef4lw29hmKakwJWlrvNOPTvfpNlRBXJg60xG8Ov+2vIjLA==}
@@ -91,7 +91,7 @@ packages:
       tslib: 2.3.0
     transitivePeerDependencies:
       - rollup
-    dev: false
+    dev: true
 
   /@babel/code-frame/7.14.5:
     resolution: {integrity: sha512-9pzDqyc6OLDaqe+zbACgFkb6fKMNG6CObKpnYXChRsvYGyEdc7CA2BaqeOM+vOtCS5ndmJicPJhKAwYRI6UfFw==}

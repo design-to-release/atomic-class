@@ -1,24 +1,30 @@
-import { defineComponent } from "san";
+<template>
+  <div style="display: inline-flex;">
+    <button
+      s-ref="myBtn"
+      class="px-12 py-5 bw-2 br-5 text-white weight {{ status | tailwindcss }}"
+      on-mousedown="mouseHandler"
+      on-mouseup="mouseHandler"
+      ac-props="props"
+      ac-default="bg-black-700"
+      ac-hover="bg-blue cursor-pointer"
+      ac-active-ol="bg-purple"
+      ac-disable-ol="bg-black-400 text-white-900 cursor-not-allowed"
+    >
+      <my-icon type="{{ isDisabled ? 1 : 0 }}"></my-icon>
+      <span>{{ text }}</span>
+    </button>
+  </div>
+</template>
+
+<script>
 import { mouse, keyboard } from "@atomic-class/action";
 import { tailwindcss } from "@atomic-class/process";
 import { Status } from "@atomic-class/core";
 
-import Icon from "./icon.js";
+import Icon from "./Icon.san";
 
-export default defineComponent({
-  template: `
-    <div style="display: inline-flex;">
-      <button
-        s-ref="myBtn"
-        class="px-12 py-5 bw-2 br-5 text-white weight {{ status | tailwindcss }}"
-        on-mousedown="mouseHandler"
-        on-mouseup="mouseHandler"
-      >
-        <my-icon type="{{ isDisabled ? 1 : 0 }}"></my-icon>
-        <span>{{ text }}</span>
-      </button>
-    </div>
-  `,
+export default {
   components: {
     "my-icon": Icon,
   },
@@ -39,7 +45,7 @@ export default defineComponent({
   initData() {
     return {
       states: ["default"],
-      props: { "default": { "classes": "bg-black-700", "overlap": false }, "hover": { "classes": "bg-blue cursor-pointer", "overlap": false }, "active": { "classes": "bg-purple", "overlap": true }, "disable": { "classes": "bg-black-400 text-white-900 cursor-not-allowed", "overlap": true } },
+      props: {},
 
       keycode: 0,
       text: "",
@@ -72,4 +78,5 @@ export default defineComponent({
       force: true,
     });
   },
-});
+};
+</script>

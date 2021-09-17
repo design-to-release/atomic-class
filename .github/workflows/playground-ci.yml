@@ -1,16 +1,19 @@
-name: demo ci
+name: playground ci
 
 on:
   push:
     branches: [main]
     paths:
-      - ".github/workflows/demo-ci.yml"
-      - "demo/**"
+      - ".github/workflows/playground-ci.yml"
+      - "playground/**"
 
 jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: playground
 
     steps:
       - uses: actions/checkout@v2
@@ -18,14 +21,13 @@ jobs:
         with:
           node-version: 16.x
 
+      - run: npm i -g pnpm
+      - run: node build.mjs
       - run: |
-          cp -r ./demo ./docs
-          sed 's/"\/packages\//"https:\/\/unpkg.com\/@atomic-class\//g' ./docs/dev.html > ./docs/index.0.html
-          sed 's/"\/demo\//"\/atomic-class\//g' ./docs/index.0.html > ./docs/index.html
-          rm ./docs/dev.html ./docs/index.0.html
+          sed -i "s/<base href=\"\/playground\/\">/<base href=\"\/atomic-class\/\">/" ./index.html
 
       - name: Deploy docs
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          publish_dir: ./playground

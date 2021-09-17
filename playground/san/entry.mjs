@@ -1,31 +1,31 @@
 const Button = `
-import { defineComponent } from "san";
-import { Button } from "@atomic-class/san/demo";
+import { defineComponent } from "skypack/san";
+import { Button } from "@atomic-class/playground/san-components";
 
 const MyApp = defineComponent({
   template: \`
     <div>
-      <my-button
+      <ac-button
         text="{{ button.text }}"
         keycode="{{ button.keycode }}"
-      ></my-button>
+      ></ac-button>
 
-      <my-button
+      <ac-button
         text="{{ buttonDisabled.text }}"
         keycode="{{ buttonDisabled.keycode }}"
         states="{{ buttonDisabled.states }}"
-      ></my-button>
+      ></ac-button>
 
-      <my-button
+      <ac-button
         text="{{ buttonCustom.text }}"
         keycode="{{ buttonCustom.keycode }}"
         props="{{ buttonCustom.props }}"
-      ></my-button>
+      ></ac-button>
     </div>
   \`,
 
   components: {
-    "my-button": Button,
+    "ac-button": Button,
   },
 
   initData() {

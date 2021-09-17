@@ -36,7 +36,7 @@ export default {
 		sourcemap: true,
 		format: 'es',
 		name: 'app',
-		file: '../demo/svelte/dist.js'
+		file: '../playground/packages/playground/svelte-components/mod.js'
 	},
 	external: ['@atomic-class/core', '@atomic-class/action', '@atomic-class/process'],
 	plugins: [
