@@ -6,12 +6,15 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "preinstall:all": "npx only-allow pnpm",
+    "build:playground": "cd ../playground/ && node ./build.mjs",
     "build": "rollup -c ./demo/rollup.config.js",
     "dev": "rollup -c ./demo/rollup.config.js -w --environment moduleId:../lib",
-    "start": "cd .. && sirv ./ --environment --dev --single ./demo/dev.html"
+    "start": "cd .. && sirv ./ --environment --dev --single ./playground/index.html",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "dependencies": {
     "@rollup/pluginutils": "^3.0.10",
+    "@swc/core": "^1.2.88",
     "acorn": "^8.4.1",
     "astring": "^1.7.5",
     "magic-string": "^0.25.7",
@@ -19,14 +22,19 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@atomic-class/action": "^0.1.0",
     "@atomic-class/core": "^0.0.1",
     "@atomic-class/process": "^0.0.1",
-    "@atomic-class/action": "^0.1.0",
+    "@babel/preset-env": "^7.15.6",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.2.3",
+    "@swc/jest": "^0.2.3",
     "@tsconfig/svelte": "^2.0.1",
+    "@types/jest": "^27.0.1",
+    "babel-jest": "^27.2.0",
     "codemirror": "^5.62.3",
+    "jest": "^27.2.0",
     "only-allow": "^1.0.0",
     "rollup": "^2.3.4",
     "rollup-plugin-css-only": "^3.1.0",
@@ -50,6 +58,21 @@
   "homepage": "https://github.com/design-to-release/atomic-class",
   "repository": "design-to-release/atomic-class",
   "license": "MIT",
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "6"
+          }
+        }
+      ]
+    ]
+  },
   "files": [
     "rollup",
     "*.json",

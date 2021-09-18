@@ -26,6 +26,10 @@
     function keyboardHandler(event) {
         status = keyboard({status, event, keycode});
     }
+    const a = {
+			default: { classes: 'bg-white', overlap: false},
+			hover: { classes: 'bg-orange', overlap: false}
+	};
 </script>
 <span
     on:mousedown={mouseHandler}
@@ -33,11 +37,11 @@
     on:mouseenter={mouseHandler}
     on:mouseleave={mouseHandler}
     class="px-12 py-5 bw-2 br-5 text-white weight {classes}"
-
     ac-props={props}
     ac-default="bg-black-700"
     ac-hover="bg-blue cursor-pointer"
     ac-active-ol="bg-purple"
     ac-disable-ol="bg-black-400 text-white-900 cursor-not-allowed">
     <Icon type={ state.includes('disable') ? 1 : 0 } ></Icon> 
-    {text}</span>
+    {text}
+</span>
