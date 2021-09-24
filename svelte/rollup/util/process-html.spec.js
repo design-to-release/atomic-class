@@ -19,7 +19,7 @@ describe('processNode', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html;
         const rs = processHtml(node, magicString, 'ac');
-        expect(rs).toEqual({p0: {}});
+        expect(rs).toEqual({0: {names: ['p0'], props: {}, import: undefined, insert: 6}});
         expect(magicString.toString()).toEqual(`<span ></span>`);
     });
 
@@ -29,66 +29,94 @@ describe('processNode', () => {
         const node = parse(magicString.toString()).html;
         const rs = processHtml(node, magicString, 'ac');
         expect(rs).toEqual({
-            p0: {
-                base: {
-                    classes: "ccc cc",
+            0: {
+                names: ['p0'],
+                props: {
+                    base: {
+                        classes: "ccc cc",
+                    },
                 },
+                import: undefined,
+                insert: 6
             }
         });
         expect(magicString.toString()).toEqual(`<span  class="{CCC}"></span>`);
     });
 
-    it('<span ac-props={p0} class="ccc cc {CCC}" ac-default="ddd dd" ac-hover-ol="hhh"></span>', () => {
-        const html = `<span ac-props={p0} class="ccc cc {CCC}" ac-default="ddd dd" ac-hover-ol="hhh"></span>`;
+    it('<span ac-props={p0} class="ccc cc {CCC}" ac-default="ddd dd" ac-hover="hhh"></span>', () => {
+        const html = `<span ac-props={p0} class="ccc cc {CCC}" ac-default="ddd dd" ac-hover="hhh"></span>`;
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html;
         const rs = processHtml(node, magicString, 'ac');
         expect(rs).toEqual({
-            p0: {
-                base: {
-                    classes: "ccc cc",
+            0: {
+                names: ['p0'],
+                props: {
+                    base: {
+                        classes: "ccc cc",
+                    },
+                    default: {
+                        classes: "ddd dd",
+                    },
+                    hover: {
+                        classes: "hhh",
+                    }
                 },
-                default: {
-                    classes: "ddd dd",
-                    overlap: false,
-                },
-                hover: {
-                    classes: "hhh",
-                    overlap: true,
-                }
+                import: undefined,
+                insert: 6
             }
         });
         expect(magicString.toString()).toEqual(`<span  class="{CCC}"  ></span>`);
     });
 
-    it('<span ac-props="{p0} {p1}" ac-default="ddd dd" ac-hover-ol="hhh"></span>', () => {
-        const html = `<span ac-props="{p0} {p1}" ac-default="ddd dd" ac-hover-ol="hhh"></span>`;
+    it('<span ac-props="{p0} {p1}" ac-default="ddd dd" ac-hover="hhh"></span>', () => {
+        const html = `<span ac-props="{p0} {p1}" ac-default="ddd dd" ac-hover="hhh"></span>`;
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html;
         const rs = processHtml(node, magicString, 'ac');
         expect(rs).toEqual({
-            p0: {
-                default: {
-                    classes: "ddd dd",
-                    overlap: false,
+            0: {
+                names: ['p0', 'p1'],
+                props: {
+                    default: {
+                        classes: "ddd dd",
+                    },
+                    hover: {
+                        classes: "hhh",
+                    }
                 },
-                hover: {
-                    classes: "hhh",
-                    overlap: true,
-                }
-            },
-            p1: {
-                default: {
-                    classes: "ddd dd",
-                    overlap: false,
-                },
-                hover: {
-                    classes: "hhh",
-                    overlap: true,
-                }
+                import: undefined,
+                insert: 6
             }
         });
         expect(magicString.toString()).toEqual(`<span   ></span>`);
+    });
+
+
+    it('<span ac-import={ac.xx} ac-props={p0} class="ccc cc {CCC}" ac-default="ddd dd" ac-hover="hhh"></span>', () => {
+        const html = `<span ac-import={ac.xx} ac-props={p0} class="ccc cc {CCC}" ac-default="ddd dd" ac-hover="hhh"></span>`;
+        const magicString = new MagicString(html);
+        const node = parse(magicString.toString()).html;
+        const rs = processHtml(node, magicString, 'ac');
+        expect(rs).toEqual({
+            0: {
+                names: ['p0'],
+                props: {
+                    base: {
+                        classes: "ccc cc",
+                    },
+                    default: {
+                        classes: "ddd dd",
+                    },
+                    hover: {
+                        classes: "hhh",
+                    }
+                },
+                import: 'xx',
+                insert: 6
+            }
+        });
+        expect(magicString.toString()).toEqual(`<span   class="{CCC}"  ></span>`);
     });
 
 });

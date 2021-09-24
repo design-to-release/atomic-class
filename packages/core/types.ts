@@ -1,4 +1,3 @@
-import type { Status } from './status';
 export interface Observer<T> {
     next: (value: T) => void;
     error: (err: any) => void;
@@ -11,3 +10,13 @@ export type Partial<T> = {
 };
 
 export type SubscriptionObserver<T> = Partial<Observer<T>>;
+
+export type State = string;
+
+export interface StateProps {
+    [index: string]: StateProp
+}
+
+export interface StateProp {
+    classes: string;
+}

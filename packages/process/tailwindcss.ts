@@ -1,11 +1,10 @@
-import type { Status } from '../core';
+import type { State, StateProps } from './types';
 
-export default function(status: Status) {
+export default function(state: State, props: StateProps) {
     const rs: any[] = [];
     const classes: string[] = [];
-    const cls = [];
-    ['base', ...status.states].forEach(state => {
-        const c = status.props[state]?.classes || '';
+    ['base', ...state.split(/\s+/)].forEach(s => {
+        const c = props[s]?.classes || '';
         const l: any = {};
         c.split(/\s/).forEach(className => {
             const nameWithoutVariant = className.split(':').pop().split(/-\d+$/).shift();

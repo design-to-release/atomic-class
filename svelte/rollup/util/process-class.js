@@ -8,7 +8,7 @@ export default function processClass(node, magicContent) {
             if (strings.length) {
                 classes = strings.join(' ');
             }
-            magicContent.overwrite(item.start, item.end, `${item.name}="${expressions.map(e => '{'+ e +  '}').join(' ')}"`)
+            magicContent.overwrite(item.start, item.end, `class="${expressions.map(e => '{'+ e +  '}').join(' ')}"`)
         }
     });
     return classes;

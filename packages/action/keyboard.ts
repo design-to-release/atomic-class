@@ -1,23 +1,18 @@
-import type { EventMapperOptions, EventMapperFunction } from "./type";
+import type { EventStateHandler } from './types';
+import { add, remove, split, has } from '../core';
 
-
-interface KeyboardOptions extends EventMapperOptions<KeyboardEvent> {
-  keycode: number;
+export const keyboard: EventStateHandler<[number]> = (event, state, keycode) => {
+    if (has(state, 'disabled')) return state;
+    if ((event as KeyboardEvent).keyCode !== keycode) return state;
+    switch(event.type) {
+      case 'keydown':
+        state = add(state, 'active');
+        break;
+      case 'keyup':
+        state = remove(state, 'active');
+        break;
+    }
+    return state;
 }
-interface KeyboardMapper extends EventMapperFunction<KeyboardOptions, KeyboardEvent> {}
 
-const keyboardMapper: KeyboardMapper = function (options){
-  const status = options.status;
-  if (status.states.indexOf('disable') > -1) return status;
-  if ((options.event as KeyboardEvent).keyCode !== options.keycode) return status;
-  switch(options.event.type) {
-    case 'keydown':
-      status.setState('active');
-      break;
-    case 'keyup':
-      status.unsetState('active');
-      break;
-  }
-  return status;
-}
-export default keyboardMapper;
+export default keyboard; 

@@ -1,5 +1,6 @@
-import type { Status } from '../core';
+import type { State, StateProps } from './types';
+import { split } from '../core';
 
-export default function(status: Status) {
-    return  ['base', ...status.states].map(state => status.props[state]?.classes || '').join(' ');
+export default function(state: State, props: StateProps) {
+    return  ['base', ...split(state)].map(state => props[state]?.classes || '').join(' ');
 }

@@ -1,4 +1,4 @@
-import type { StateProps } from './status';
+import type { StateProps } from './types';
 
 export function from(node: HTMLElement) {
     const configs: StateProps = {};
@@ -7,7 +7,6 @@ export function from(node: HTMLElement) {
       const matches = name.match(/^ac\-(\w+)/);
       configs[matches[1]] = {
         classes: node.getAttribute(name),
-        overlap: !!name.match(/\-ol($|\-)/)
       }
     });
     return configs;

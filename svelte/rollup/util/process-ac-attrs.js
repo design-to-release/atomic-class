@@ -6,12 +6,12 @@ export default function processAcAttrs(node, magicContent, prefix) {
     node.attributes
        .forEach(item => {
         let name = getPropName(item.name, prefix);
-        if (name && name !== "props") {
+        if (name && name !== "props" && name !== "import") {
             const { strings, expressions } = separateMustacheTag(item);
             if (expressions.length) {
                 throw new Error(`[atomic-classes] does not support expressions in props [${prefix}-${expressions}]`);
             }
-            props[name.replace(/\-ol$/, '')] =  {classes: strings.join(' '), overlap: !!name.match(/\-ol$/)};
+            props[name] =  {classes: strings.join(' ')};
             magicContent.overwrite(item.start, item.end, '');
         }
     });

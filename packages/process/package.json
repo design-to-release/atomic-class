@@ -1,6 +1,6 @@
 {
   "name": "@atomic-class/process",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "process mapper for atomic-class",
   "main": "dist/umd.js",
   "browser": "dist/umd.js",

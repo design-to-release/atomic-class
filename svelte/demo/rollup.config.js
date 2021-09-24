@@ -40,7 +40,9 @@ export default {
 	},
 	external: ['@atomic-class/core', '@atomic-class/action', '@atomic-class/process'],
 	plugins: [
-        ac(),
+        ac({
+			extraCss: true,
+		}),
 		svelte({
 			compilerOptions: {
 				// enable run-time checks when not in production

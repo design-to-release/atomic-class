@@ -10,4 +10,3 @@
     /** 生成代码结束*/
 </script>
 <span ac-props={props} >{icon[type]}</span>
-<subchild aconf="aconf."></subchild>

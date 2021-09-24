@@ -19,22 +19,9 @@ describe('processAcAttrs', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html.children[0];
         const rs = processAcAttrs(node, magicString, 'ac');
-        expect(rs).toEqual({default: {classes: "ddd dd", overlap: false}});
+        expect(rs).toEqual({default: {classes: "ddd dd"}});
         expect(magicString.toString()).toEqual(`<span ></span>`);
     });
-
-    it('<span ac-default="ddd dd" ac-hover-ol="hhh"></span>', () => {
-        const html = `<span ac-default="ddd dd" ac-hover-ol="hhh"></span>`;
-        const magicString = new MagicString(html);
-        const node = parse(magicString.toString()).html.children[0];
-        const rs = processAcAttrs(node, magicString, 'ac');
-        expect(rs).toEqual({
-            default: {classes: "ddd dd", overlap: false},
-            hover: {classes: "hhh", overlap: true},
-        });
-        expect(magicString.toString()).toEqual(`<span  ></span>`);
-    });
-
 
     it('<span ac-default="{varp} ddd"></span>', () => {
         const html = `<span ac-default="{varp} dd"></span>`;
