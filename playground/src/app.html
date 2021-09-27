@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script type="importmap">
+			{
+				"imports": {
+					// Extension-less
+					"@atomic-class/playground/san-components": "../packages/playground/san-components/mod.js",
+					"@atomic-class/playground/svelte-components": "../packages/playground/svelte-components/mod.js",
+
+					// CDN
+					"skypack/": "https://cdn.skypack.dev/",
+					"unpkg/": "https://unpkg.com/",
+					"esm.sh/": "https://esm.sh/"
+				}
+			}
+		</script>
+		%svelte.head%
+	</head>
+	<body>
+		<div id="app">%svelte.body%</div>
+	</body>
+</html>

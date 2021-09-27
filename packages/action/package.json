@@ -4,7 +4,7 @@
   "description": "event handlers for atomic-class",
   "main": "dist/umd.js",
   "browser": "dist/umd.js",
-  "esnext": "dist/es.js",
+  "module": "dist/es.js",
   "scripts": {
     "build": "npm run build:umd && npm run build:es",
     "build:umd": "rollup -c ../rollup.config.js --environment format:umd",

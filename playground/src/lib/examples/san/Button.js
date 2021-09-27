@@ -1,8 +1,7 @@
-const Button = `
-import { defineComponent } from "skypack/san";
+export default `import { defineComponent } from "skypack/san";
 import { Button } from "@atomic-class/playground/san-components";
 
-const MyApp = defineComponent({
+export default defineComponent({
   template: \`
     <div>
       <ac-button
@@ -58,12 +57,4 @@ const MyApp = defineComponent({
       },
     };
   },
-});
-
-const myApp = new MyApp();
-myApp.attach(document.querySelector(".root"));
-`;
-
-export const script = {
-  Button,
-};
+});`;

@@ -1,9 +1,9 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@atomic-class/action': ^0.1.0
-  '@atomic-class/core': ^0.0.1
-  '@atomic-class/process': ^0.0.1
+  '@atomic-class/action': 0.1.1
+  '@atomic-class/core': 0.1.1
+  '@atomic-class/process': 0.1.1
   '@babel/preset-env': ^7.15.6
   '@rollup/plugin-commonjs': ^17.0.0
   '@rollup/plugin-node-resolve': ^11.0.0
@@ -41,9 +41,9 @@ dependencies:
   tslib: 2.3.0
 
 devDependencies:
-  '@atomic-class/action': 0.1.0_rollup@2.53.3
-  '@atomic-class/core': 0.0.1_rollup@2.53.3
-  '@atomic-class/process': 0.0.1_rollup@2.53.3
+  '@atomic-class/action': 0.1.1_rollup@2.53.3
+  '@atomic-class/core': 0.1.1_rollup@2.53.3
+  '@atomic-class/process': 0.1.1_rollup@2.53.3
   '@babel/preset-env': 7.15.6
   '@rollup/plugin-commonjs': 17.1.0_rollup@2.53.3
   '@rollup/plugin-node-resolve': 11.2.1_rollup@2.53.3
@@ -66,9 +66,8 @@ devDependencies:
 
 packages:
 
-  /@atomic-class/action/0.1.0_rollup@2.53.3:
-    resolution: {integrity: sha512-Zp34zDpQddBccdYU3GJ5ByTQTtnNUm25ticzHbHbijFwWbFXnqAiaK1jcHJb7jLXUD9W9kjlWb0bEO90LcdIdg==}
-    requiresBuild: true
+  /@atomic-class/action/0.1.1_rollup@2.53.3:
+    resolution: {integrity: sha512-xL8mRGagb0xQ22vN8VT1f9qhgu1dX+sR2H7tR1mVTGpQ2oe0MHH5eSudS6dJ8mMuzgyhmW7jBk7BMaAFGziXcQ==}
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.53.3
       acorn: 8.4.1
@@ -79,9 +78,8 @@ packages:
       - rollup
     dev: true
 
-  /@atomic-class/core/0.0.1_rollup@2.53.3:
-    resolution: {integrity: sha512-PsFpfkL2V8h9MBbprF+i6hjlJ/PiJsDlvVeKc2N7lyaTxiUwPemMP9iHcQB1jswX9yDzczWld3uVaXAZkEml7w==}
-    requiresBuild: true
+  /@atomic-class/core/0.1.1_rollup@2.53.3:
+    resolution: {integrity: sha512-ZCi18hkQLywiFx7EX8BdtM42shqZjQDipQsJNrSYVIVBqq4ghruEJL/F33jvCkEjxqqbDPb1SnGOare02FVI8g==}
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.53.3
       acorn: 8.4.1
@@ -92,9 +90,8 @@ packages:
       - rollup
     dev: true
 
-  /@atomic-class/process/0.0.1_rollup@2.53.3:
-    resolution: {integrity: sha512-dRO8NQ37B6t4wQr+i7xN0aiKnqN/gjdIY+HYvA7Qef4lw29hmKakwJWlrvNOPTvfpNlRBXJg60xG8Ov+2vIjLA==}
-    requiresBuild: true
+  /@atomic-class/process/0.1.1_rollup@2.53.3:
+    resolution: {integrity: sha512-+7/8e7PeezSs2xOurpAICAGnsViA7Kyum/vzR/tpckFV2QGKf5eTNfiC9wWgkNCvgHP0lRsPTAjE1ZS/9uTXmw==}
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.53.3
       acorn: 8.4.1
