@@ -1,2 +1,0 @@
-var e=function(e){var t=e.status;if(t.states.indexOf("disable")>-1)return t;switch(e.event.type){case"mouseenter":t.setState("hover");break;case"mouseleave":t.unsetState("hover");break;case"mousedown":t.setState("active");break;case"mouseup":t.unsetState("active")}return t},t=function(e){var t=e.status;if(t.states.indexOf("disable")>-1)return t;if(e.event.keyCode!==e.keycode)return t;switch(e.event.type){case"keydown":t.setState("active");break;case"keyup":t.unsetState("active")}return t};export{t as keyboard,e as mouse};
-//# sourceMappingURL=es.js.map

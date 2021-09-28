@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script type="importmap">
+			{
+				"imports": {
+					// Extension-less
+					"@atomic-class/playground/san-components": "../packages/playground/san-components/mod.js",
+					"@atomic-class/playground/svelte-components": "../packages/playground/svelte-components/mod.js",
+
+					// CDN
+					"skypack/": "https://cdn.skypack.dev/",
+					"unpkg/": "https://unpkg.com/",
+					"esm.sh/": "https://esm.sh/"
+				}
+			}
+		</script>
+		<base href="/atomic-class/" data-svelte="svelte-xbpuq1">
+
+		
+
+		<link rel="modulepreload" href="/atomic-class/_app/start-f02f23b9.js">
+		<link rel="modulepreload" href="/atomic-class/_app/chunks/vendor-63bd2515.js">
+		<link rel="modulepreload" href="/atomic-class/_app/chunks/preload-helper-cc74dd90.js">
+		<link rel="modulepreload" href="/atomic-class/_app/chunks/paths-28a87002.js">
+		<link rel="modulepreload" href="/atomic-class/_app/pages/__layout.svelte-4f1ee4cd.js">
+		<link rel="modulepreload" href="/atomic-class/_app/chunks/stores-8823aacd.js">
+		<link rel="modulepreload" href="/atomic-class/_app/pages/[framework]/[component].svelte-aca4d95f.js">
+		<link rel="stylesheet" href="/atomic-class/_app/assets/start-464e9d0a.css">
+		<link rel="stylesheet" href="/atomic-class/_app/assets/pages/__layout.svelte-9757c211.css">
+		<link rel="stylesheet" href="/atomic-class/_app/assets/pages/[framework]/[component].svelte-280bc0af.css">
+
+		<script type="module">
+			import { start } from "/atomic-class/_app/start-f02f23b9.js";
+			start({
+				target: document.querySelector("#app"),
+				paths: {"base":"/atomic-class","assets":""},
+				session: {},
+				host: location.host,
+				route: true,
+				spa: false,
+				trailing_slash: "never",
+				hydrate: {
+					status: 200,
+					error: null,
+					nodes: [
+						import("/atomic-class/_app/pages/__layout.svelte-4f1ee4cd.js"),
+						import("/atomic-class/_app/pages/[framework]/[component].svelte-aca4d95f.js")
+					],
+					page: {
+						host: location.host, // TODO this is redundant
+						path: "/svelte/button",
+						query: new URLSearchParams(""),
+						params: {"framework":"svelte","component":"button"}
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div id="app">
+
+
+
+
+<header class="svelte-q4t57w"><div class="text-lg font-bold text-gray-500">Atomic Class REPL</div>
+	<nav class="text-sm"><a class="link svelte-q4t57w  disabled" href="/atomic-class/angular">angular</a><a class="link svelte-q4t57w  disabled" href="/atomic-class/react">react</a><a class="link svelte-q4t57w active" href="/atomic-class/svelte">svelte</a><a class="link svelte-q4t57w" href="/atomic-class/san">san</a><a class="link svelte-q4t57w  disabled" href="/atomic-class/vue">vue</a>
+		<a class="text-green-600 inline-flex ml-7" href="https://github.com/design-to-release/atomic-class" target="_blank"><span>GitHub</span>
+			<img class="inline ml-1" src="/atomic-class/_app/assets/launch-26637fb7.svg" alt="GitHub"></a></nav>
+</header>
+
+<main class="h-full flex overflow-auto"><section class="px-4 py-3 flex flex-col items-center border-r border-gray-100 w-36 text-green-600"><a href="/atomic-class/svelte/button" class="link svelte-1rdlccc active">button</a>
+</section>
+<section class="flex flex-col w-full"><section id="preview" class="h-80 p-4"></section>
+	<section class="flex-grow overflow-auto border-b border-t border-gray-200"></section>
+	<section class="flex-shrink-0 h-16 bg-gray-50 text-gray-500 p-3 text-xs"></section></section></main>
+
+
+
+			<script type="application/json" data-type="svelte-data" data-url="/svelte/button.json">{"status":200,"statusText":"","headers":{"content-type":"application/json; charset=utf-8"},"body":"{\"code\":\"import { Button } from '@atomic-class\u002Fplayground\u002Fsvelte-components';\\n\\nconst root = document.createElement('div');\\n\\nconst button = new Button({\\n\\ttarget: root,\\n\\tprops: { keycode: 65, text: 'Please Press A', },\\n});\\n\\nconst buttonDisabled = new Button({\\n\\ttarget: root,\\n\\tprops: { keycode: 66, text: 'Please Press B', state: 'disabled' },\\n});\\n\\nconst buttonCustom = new Button({\\n\\ttarget: root,\\n\\tprops: {\\n\\t\\tkeycode: 67,\\n\\t\\ttext: 'Please Press C',\\n\\t\\tac: {\\n\\t\\t\\tshape: {\\n\\t\\t\\t\\tbase: { classes: 'px-12 py-5 bw-2 br-5 text-white weight text-yellow'},\\n\\t\\t\\t\\tdefault: { classes: 'bg-green'},\\n\\t\\t\\t\\thover: { classes: 'bg-greenyellow cursor-pointer'},\\n\\t\\t\\t\\tactive: { classes: 'bg-orange', overlap: true},\\n\\t\\t\\t\\tdisabled: { classes: 'bg-black-400 text-white-900  cursor-not-allowed'},\\n\\t\\t\\t}\\n\\t\\t}\\n\\t},\\n});\\n\\nexport default root;\",\"components\":[\"button\"]}"}</script>
+		</div>
+	</body>
+</html>
