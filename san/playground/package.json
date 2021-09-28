@@ -4,9 +4,9 @@
     "build": "webpack"
   },
   "dependencies": {
-    "@atomic-class/action": "file:../../packages/action",
-    "@atomic-class/core": "file:../../packages/core",
-    "@atomic-class/process": "file:../../packages/process"
+    "@atomic-class/action": "0.1.0",
+    "@atomic-class/core": "0.0.1",
+    "@atomic-class/process": "0.0.1"
   },
   "devDependencies": {
     "@atomic-class/san": "file:../dist",

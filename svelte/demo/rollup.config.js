@@ -36,9 +36,8 @@ export default {
 		sourcemap: true,
 		format: 'es',
 		name: 'app',
-		file: '../playground/packages/playground/svelte-components/mod.js'
+		file: '../playground/static/packages/playground/svelte-components/mod.js'
 	},
-	external: ['@atomic-class/core', '@atomic-class/action', '@atomic-class/process'],
 	plugins: [
         ac({
 			extraCss: true,

@@ -22,12 +22,14 @@ jobs:
           node-version: 16.x
 
       - run: npm i -g pnpm
-      - run: node build.mjs
       - run: |
-          sed -i "s/<base href=\"\/playground\/\">/<base href=\"\/atomic-class\/\">/" ./index.html
+          pnpm i
+          node build.js
+          pnpm check
+          pnpm build
 
       - name: Deploy docs
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./playground
+          publish_dir: ./playground/build

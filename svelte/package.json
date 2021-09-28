@@ -6,7 +6,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "preinstall:all": "npx only-allow pnpm",
-    "build:playground": "cd ../playground/ && node ./build.mjs",
+    "build:playground": "cd ../playground/ && node ./build.js",
     "build": "rollup -c ./demo/rollup.config.js",
     "dev": "rollup -c ./demo/rollup.config.js -w --environment moduleId:../lib",
     "start": "cd .. && sirv ./ --environment --dev --single ./playground/index.html",
@@ -22,9 +22,9 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@atomic-class/action": "^0.1.0",
-    "@atomic-class/core": "^0.0.1",
-    "@atomic-class/process": "^0.0.1",
+    "@atomic-class/action": "0.1.1",
+    "@atomic-class/core": "0.1.1",
+    "@atomic-class/process": "0.1.1",
     "@babel/preset-env": "^7.15.6",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",

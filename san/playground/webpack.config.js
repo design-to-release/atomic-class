@@ -9,7 +9,7 @@ module.exports = {
   output: {
     path: join(__dirname, './dist'),
     libraryTarget: 'module',
-    filename: 'mod.js'
+    filename: 'mod.js',
   },
   devtool: 'source-map',
   experiments: {
