@@ -23,6 +23,7 @@ jobs:
 
       - run: npm i -g pnpm
       - run: |
+          sed -i "s/\/packages\/playground\//\/atomic-class\/packages\/playground\//" ./src/app.html
           pnpm i
           node build.js
           pnpm check
