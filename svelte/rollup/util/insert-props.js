@@ -1,10 +1,10 @@
-import { walk } from 'svelte/compiler';
+import {walk} from 'svelte/compiler';
 
 export default function insertProps(
     magicContent,
     instance,
     prefix,
-    /** configs e.g. 
+    /** configs e.g.
      {
             0: {
                 names: ['p0'],
@@ -24,8 +24,8 @@ export default function insertProps(
             }
         }
      */
-    configs,
-    ) {
+    configs
+) {
 
     walk(instance, {
         enter(node, parent, prop, index) {
@@ -43,12 +43,14 @@ export default function insertProps(
                 Object.keys(configs).forEach(idx => {
                     const config = configs[idx];
                     const name = node.body?.expression?.name || node.body?.expression?.left?.name;
-                    if (!name || !config.names.includes(name)) return;
+                    if (!name || !config.names.includes(name)) {
+                        return;
+                    }
                     insertLabeledStatement(node, name, config.props, config.import);
                 });
             }
 
-        }
+        },
     });
 
     function insertDeclarator(node, parent, props, imp) {
@@ -62,7 +64,8 @@ export default function insertProps(
         if (imp) {
             impString = `, ...(${prefix}.${imp})`;
         }
-        magicContent.prependRight(parent.end, `; ${name} = {${initString}...${JSON.stringify(props)}, ...${name}${impString}}`);
+        magicContent.prependRight(parent.end,
+            `; ${name} = {${initString}...${JSON.stringify(props)}, ...${name}${impString}}`);
     }
 
     function insertLabeledStatement(node, name, props, imp) {
@@ -71,16 +74,20 @@ export default function insertProps(
         if (imp) {
             impString = `, ...(${prefix}.${imp})`;
         }
-        if (node.body?.expression?.type === 'Identifier' && node.body?.expression?.name === name) { // '$: p0;'
+        if (
+            node.body?.expression?.type === 'Identifier' && node.body?.expression?.name === name) {
+        }
+        else if (node.body?.expression?.type === 'AssignmentExpression') { // '$: p0;'
+            initString = '...('
+                + magicContent.slice(node.body.expression.right.start, node.body.expression.right.end) + '), ';
 
-        } else if (node.body?.expression?.type === 'AssignmentExpression'){ // '$: p0;'
-            initString = '...(' + magicContent.slice(node.body.expression.right.start, node.body.expression.right.end)+ '), ';
-
-        } else {
+        }
+        else {
             return;
         }
         magicContent.overwrite(node.body.start, node.body.expression.end, '');
-        magicContent.prependLeft(node.body.expression.start, `${name} = {${initString}...${JSON.stringify(props)} ${impString}}`);
+        magicContent.prependLeft(node.body.expression.start,
+            `${name} = {${initString}...${JSON.stringify(props)} ${impString}}`);
     }
 
     return magicContent;

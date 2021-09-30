@@ -14,7 +14,7 @@ export function add(oldState: State, newState: string){
 export function remove(oldState: State, existedState: State) {
     let states = split(oldState);
     let newStates = split(existedState);
-    states = states.filter(item => newStates.indexOf(item) == -1);
+    states = states.filter(item => newStates.indexOf(item) === -1);
     return states.join(' ');
 }
 export function has(state: State, target: string) {

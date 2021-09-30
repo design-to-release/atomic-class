@@ -1,7 +1,7 @@
-import { extname } from 'path';
-import { parse, walk } from 'svelte/compiler';
+import {extname} from 'path';
+import {parse} from 'svelte/compiler';
 import MagicString from 'magic-string';
-import { createFilter } from '@rollup/pluginutils';
+import {createFilter} from '@rollup/pluginutils';
 import processHtml from './util/process-html';
 import insertProps from './util/insert-props';
 import processExtraCss from './util/process-extra-class';
@@ -19,14 +19,16 @@ import processExtraCss from './util/process-extra-class';
  * @param options.extraCssFile - default index.css
  */
 
-export default function(options = {}) {
+export default function (options = {}) {
     const filter = createFilter(options.include, options.exclude);
     options.prefix = options.prefix || 'ac';
     return {
         name: 'atomic-class-builder',
         async transform(code, id) {
-            if (!filter(id) || extname(id) !== '.svelte') return null;
-            const ast = parse(code, { filename: id });
+            if (!filter(id) || extname(id) !== '.svelte') {
+                return null;
+            }
+            const ast = parse(code, {filename: id});
             const magicContent = new MagicString(code);
             let configs = processHtml(ast.html, magicContent, options.prefix);
             if (options.extraCss) {
@@ -36,8 +38,8 @@ export default function(options = {}) {
 
             return {
                 code: magicContent.toString(),
-                map: magicContent.generateMap({ source: id }).toString(),
-            }
-        }
+                map: magicContent.generateMap({source: id}).toString(),
+            };
+        },
     };
 }
