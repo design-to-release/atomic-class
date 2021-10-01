@@ -19,7 +19,7 @@ describe('insertProps', () => {
         };
         const magicString = new MagicString(script);
         const node = parse(magicString.toString()).instance;
-        insertProps(magicString, node, 'ac', configs);
+        insertProps(node, magicString, configs, 'ac');
         const rs = magicString.toString().replace(/(\<(\/)*script\>)/g, '');
         const fn = Function(rs + ';return p0;');
         expect(fn()).toEqual({base: 'bbb', default: 'ddd dd'});
@@ -39,7 +39,7 @@ describe('insertProps', () => {
         };
         const magicString = new MagicString(script);
         const node = parse(magicString.toString()).instance;
-        insertProps(magicString, node, 'ac', configs);
+        insertProps(node, magicString, configs,  'ac');
         const rs = magicString.toString().replace(/(\<(\/)*script\>)/g, '');
         const fn = Function(rs + ';return p0;');
         expect(fn()).toEqual({base: 'bbb', default: 'ddd dd', hover: 'hhh'});
@@ -59,7 +59,7 @@ describe('insertProps', () => {
         };
         const magicString = new MagicString(script);
         const node = parse(magicString.toString()).instance;
-        insertProps(magicString, node, 'ac', configs);
+        insertProps(node, magicString, configs, 'ac');
         const rs = magicString.toString().replace(/(\<(\/)*script\>)/g, '');
         const fn = Function('ac', rs + ';return p0;');
         expect(fn({one: {base: 'ppp', hover: 'ooo'}})).toEqual({base: 'ppp', default: 'ddd dd', hover: 'ooo'});
@@ -81,7 +81,7 @@ describe('insertProps', () => {
         };
         const magicString = new MagicString(script);
         const node = parse(magicString.toString()).instance;
-        insertProps(magicString, node, 'ac', configs);
+        insertProps(node, magicString, configs, 'ac');
         const rs = magicString.toString().replace(/(\<(\/)*script\>)/g, '').replace('$:', 'let');
         const fn = Function(rs + ';return p0;');
         expect(fn()).toEqual({base: 'bbb', default: 'ddd dd'});
@@ -101,7 +101,7 @@ describe('insertProps', () => {
         };
         const magicString = new MagicString(script);
         const node = parse(magicString.toString()).instance;
-        insertProps(magicString, node, 'ac', configs);
+        insertProps(node, magicString, configs, 'ac');
         const rs = magicString.toString().replace(/(\<(\/)*script\>)/g, '').replace('$:', 'let');
         const fn = Function(rs + ';return p0;');
         expect(fn()).toEqual({base: 'bbb', default: 'ddd dd', hover: 'hhh'});
@@ -121,7 +121,7 @@ describe('insertProps', () => {
         };
         const magicString = new MagicString(script);
         const node = parse(magicString.toString()).instance;
-        insertProps(magicString, node, 'ac', configs);
+        insertProps(node, magicString, configs, 'ac');
         const rs = magicString.toString().replace(/(\<(\/)*script\>)/g, '').replace('$:', 'let');
         const fn = Function('ac', rs + ';return p0;');
         expect(fn({one: {base: 'ppp', hover: 'ooo'}})).toEqual({base: 'ppp', default: 'ddd dd', hover: 'ooo'});

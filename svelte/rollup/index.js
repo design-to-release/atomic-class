@@ -4,7 +4,7 @@ import MagicString from 'magic-string';
 import {createFilter} from '@rollup/pluginutils';
 import processHtml from './util/process-html';
 import insertProps from './util/insert-props';
-import processExtraCss from './util/process-extra-class';
+import insertClasses from './util/insert-classes';
 
 
 // const production = !process.env.ROLLUP_WATCH;
@@ -32,10 +32,11 @@ export default function (options = {}) {
             const magicContent = new MagicString(code);
             let configs = processHtml(ast.html, magicContent, options.prefix);
             if (options.extraCss) {
-                configs = processExtraCss(configs, options.extraCss, options.prefix);
+                // configs = processExtraCss(configs, options.extraCss, options.prefix);
             }
-            insertProps(magicContent, ast.instance, options.prefix, configs);
-
+            insertClasses(ast.html, magicContent, configs, options.prefix, options.extraCss);
+            insertProps(ast.instance, magicContent, configs, options.prefix);
+            console.log(magicContent.toString());
             return {
                 code: magicContent.toString(),
                 map: magicContent.generateMap({source: id}).toString(),

@@ -1,9 +1,8 @@
 import {walk} from 'svelte/compiler';
 
 export default function insertProps(
-    magicContent,
     instance,
-    prefix,
+    magicContent,
     /** configs e.g.
      {
             0: {
@@ -24,7 +23,8 @@ export default function insertProps(
             }
         }
      */
-    configs
+    configs,
+    prefix,
 ) {
 
     walk(instance, {

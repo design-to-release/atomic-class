@@ -10,7 +10,7 @@ describe('processClass', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html.children[0];
         const rs = processClass(node, magicString, 'ac');
-        expect(rs).toEqual(undefined);
+        expect(rs).toEqual({baseClasses: undefined, classes: undefined});
         expect(magicString.toString()).toEqual('<span ></span>');
     });
 
@@ -19,8 +19,8 @@ describe('processClass', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html.children[0];
         const rs = processClass(node, magicString, 'ac');
-        expect(rs).toEqual('xx yy');
-        expect(magicString.toString()).toEqual('<span class=""></span>');
+        expect(rs).toEqual({ baseClasses: 'xx yy', classes: undefined });
+        expect(magicString.toString()).toEqual('<span ></span>');
     });
 
     it('<span class="xx yy {zz}"></span>', () => {
@@ -28,8 +28,8 @@ describe('processClass', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html.children[0];
         const rs = processClass(node, magicString, 'ac');
-        expect(rs).toEqual('xx yy');
-        expect(magicString.toString()).toEqual('<span class="{zz}"></span>');
+        expect(rs).toEqual({ baseClasses: 'xx yy', classes: '{zz}'});
+        expect(magicString.toString()).toEqual('<span ></span>');
     });
 
     it('<span class="{zz} {pp}"></span>', () => {
@@ -37,8 +37,8 @@ describe('processClass', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html.children[0];
         const rs = processClass(node, magicString, 'ac');
-        expect(rs).toEqual(undefined);
-        expect(magicString.toString()).toEqual('<span class="{zz} {pp}"></span>');
+        expect(rs).toEqual({baseClasses: undefined, classes: '{zz} {pp}'});
+        expect(magicString.toString()).toEqual('<span ></span>');
     });
 
     it('<span class="{zz} xx {pp} uu"></span>', () => {
@@ -46,8 +46,8 @@ describe('processClass', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html.children[0];
         const rs = processClass(node, magicString, 'ac');
-        expect(rs).toEqual('xx uu');
-        expect(magicString.toString()).toEqual('<span class="{zz} {pp}"></span>');
+        expect(rs).toEqual({ baseClasses: 'xx uu', classes: '{zz} {pp}'});
+        expect(magicString.toString()).toEqual('<span ></span>');
     });
 
     it('<span class={xx}></span>', () => {
@@ -55,8 +55,8 @@ describe('processClass', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html.children[0];
         const rs = processClass(node, magicString, 'ac');
-        expect(rs).toEqual(undefined);
-        expect(magicString.toString()).toEqual('<span class="{xx}"></span>');
+        expect(rs).toEqual({baseClasses: undefined, classes: '{xx}'});
+        expect(magicString.toString()).toEqual('<span ></span>');
     });
 
 });

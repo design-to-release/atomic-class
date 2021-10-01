@@ -38,9 +38,10 @@ describe('processNode', () => {
                 },
                 import: undefined,
                 insert: 6,
+                classes: '{CCC}'
             },
         });
-        expect(magicString.toString()).toEqual('<span  class="{CCC}"></span>');
+        expect(magicString.toString()).toEqual('<span  ></span>');
     });
 
     it('<span ac-props={p0} class="ccc cc {CCC}" ac-default="ddd dd" ac-hover="hhh"></span>', () => {
@@ -64,9 +65,10 @@ describe('processNode', () => {
                 },
                 import: undefined,
                 insert: 6,
+                classes: '{CCC}',
             },
         });
-        expect(magicString.toString()).toEqual('<span  class="{CCC}"  ></span>');
+        expect(magicString.toString()).toEqual('<span    ></span>');
     });
 
     it('<span ac-props="{p0} {p1}" ac-default="ddd dd" ac-hover="hhh"></span>', () => {
@@ -87,6 +89,7 @@ describe('processNode', () => {
                 },
                 import: undefined,
                 insert: 6,
+                classes: undefined,
             },
         });
         expect(magicString.toString()).toEqual('<span   ></span>');
@@ -115,9 +118,10 @@ describe('processNode', () => {
                 },
                 import: 'xx',
                 insert: 6,
+                classes: '{CCC}',
             },
         });
-        expect(magicString.toString()).toEqual('<span   class="{CCC}"  ></span>');
+        expect(magicString.toString()).toEqual('<span     ></span>');
     });
 
 });

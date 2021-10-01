@@ -24,9 +24,9 @@ export default function processHtml(root, magicContent, prefix, identifier) {
             const props = processAcAttrs(node, magicContent, prefix);
 
             /** <span class="ddd dd {c}">  baseClasses="ddd d"  + <span class="{c}"></span> */
-            const baseClasses = processClass(node, magicContent);
-            if (baseClasses) {
-                props.base = {classes: baseClasses};
+            const cssrs = processClass(node, magicContent);
+            if (cssrs.baseClasses) {
+                props.base = {classes: cssrs.baseClasses};
             }
 
             /** <span ac-import="aconf.dd"> imp = "dd" */
@@ -36,7 +36,9 @@ export default function processHtml(root, magicContent, prefix, identifier) {
                 props: props,
                 import: imp,
                 insert: node.attributes[0].start,
+                classes: cssrs.classes,
             };
+            
             propsNames.forEach(name => {
                 if (existProps[name]) {
                     console.warn(`[atomic-classes] bind ac-props {${name}} to more than one dom`);
