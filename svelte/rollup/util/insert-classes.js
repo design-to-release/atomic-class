@@ -6,6 +6,7 @@ export default function insertClasses(
     /** configs e.g.
      {
             0: {
+                id: "_AAA",
                 state: ['p0'],
                 props: {
                     base: {
@@ -36,6 +37,9 @@ export default function insertClasses(
         }
         if (config.state) {
             rs.push(config.state);
+        }
+        if (config.id) {
+            rs.push(config.id);
         }
         if (rs.length) {
             magicContent.prependLeft(config.insert, `class="${rs.join(' ')}" `);

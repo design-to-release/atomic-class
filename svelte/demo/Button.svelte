@@ -25,11 +25,12 @@
     on:mouseleave={mouseHandler}
     on:mousedown={mouseHandler}
     on:mouseup={mouseHandler}
-    class="px-12 py-5 bw-2 br-5 text-white weight"
+    class="px-4 py-2 rounded-lg text-white font-bold m-2"
     ac-state={state}
-    ac-default="bg-black-700"
-    ac-hover="bg-blue cursor-pointer"
-    ac-active="bg-purple"
-    ac-disabled="bg-black-400 text-white-900 cursor-not-allowed">
+    ac-default="bg-green-600"
+    ac-hover="bg-green-500 cursor-pointer"
+    ac-active="bg-yellow-500"
+    ac-disabled="bg-gray-500 text-gray-100 cursor-not-allowed">
     {text}
 </span>
+<style></style>

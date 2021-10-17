@@ -65,5 +65,6 @@ export default function processHtml(root, magicContent, prefix, identifier) {
             }
         },
     });
+    if (Object.keys(configs).length === 0) return undefined;
     return configs;
 }

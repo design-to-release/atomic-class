@@ -3,9 +3,8 @@ import {parse} from 'svelte/compiler';
 import MagicString from 'magic-string';
 import {createFilter} from '@rollup/pluginutils';
 import processHtml from './util/process-html';
-import insertProps from './util/insert-props';
 import insertClasses from './util/insert-classes';
-
+import insertCss from './util/insert-tailwindcss';
 
 // const production = !process.env.ROLLUP_WATCH;
 // const moduleId = process.env.moduleId || require('../package.json').name;
@@ -31,12 +30,11 @@ export default function (options = {}) {
             const ast = parse(code, {filename: id});
             const magicContent = new MagicString(code);
             let configs = processHtml(ast.html, magicContent, options.prefix);
-            if (options.extraCss) {
-                // configs = processExtraCss(configs, options.extraCss, options.prefix);
+            if (configs) {
+                insertClasses(ast.html, magicContent, configs);
+                insertCss(ast.css, magicContent, configs);
             }
-            insertClasses(ast.html, magicContent, configs);
-            // insertProps(ast.instance, magicContent, configs, options.prefix);
-            // console.log(magicContent.toString());
+
             return {
                 code: magicContent.toString(),
                 map: magicContent.generateMap({source: id}).toString(),

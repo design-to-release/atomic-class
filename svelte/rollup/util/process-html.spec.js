@@ -10,7 +10,7 @@ describe('processNode', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html;
         const rs = processHtml(node, magicString, 'ac');
-        expect(rs).toEqual({});
+        expect(rs).toEqual(undefined);
         expect(magicString.toString()).toEqual('<span ></span>');
     });
 

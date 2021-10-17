@@ -47,3 +47,5 @@
 	<Editor className="border-b border-t border-gray-200" bind:edView bind:docStr={code} />
 	<Console {error} />
 </section>
+
+<link rel="stylesheet" href="/static/packages/playground/svelte-components/bundle.css">
