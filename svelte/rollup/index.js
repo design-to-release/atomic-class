@@ -34,9 +34,9 @@ export default function (options = {}) {
             if (options.extraCss) {
                 // configs = processExtraCss(configs, options.extraCss, options.prefix);
             }
-            insertClasses(ast.html, magicContent, configs, options.prefix, options.extraCss);
-            insertProps(ast.instance, magicContent, configs, options.prefix);
-            console.log(magicContent.toString());
+            insertClasses(ast.html, magicContent, configs);
+            // insertProps(ast.instance, magicContent, configs, options.prefix);
+            // console.log(magicContent.toString());
             return {
                 code: magicContent.toString(),
                 map: magicContent.generateMap({source: id}).toString(),

@@ -26,6 +26,7 @@ specifiers:
   rollup-plugin-svelte: ^7.0.0
   rollup-plugin-terser: ^7.0.0
   rxjs: ^7.3.0
+  shorthash2: ^1.0.3
   sirv-cli: ^1.0.0
   svelte: ^3.0.0
   tslib: ^2.3.0
@@ -38,6 +39,7 @@ dependencies:
   astring: 1.7.5
   magic-string: 0.25.7
   rxjs: 7.3.0
+  shorthash2: 1.0.3
   tslib: 2.3.0
 
 devDependencies:
@@ -3944,6 +3946,10 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
     dev: true
+
+  /shorthash2/1.0.3:
+    resolution: {integrity: sha512-oB8s64JsyJ2xhHJlnTwGg++Y3BTF6XnXeXMC7OygD8vtNcCRDiMxEGONvUOeZbxfwEXENmRlqPDouMR/OtGDsw==}
+    dev: false
 
   /signal-exit/3.0.4:
     resolution: {integrity: sha512-rqYhcAnZ6d/vTPGghdrw7iumdcbXpsk1b8IG/rz+VWV51DM0p7XCtMoJ3qhPLIbp3tvyt3pKRbaaEMZYpHto8Q==}

@@ -6,7 +6,7 @@ export default function insertClasses(
     /** configs e.g.
      {
             0: {
-                names: ['p0'],
+                state: ['p0'],
                 props: {
                     base: {
                         classes: "ccc cc",
@@ -18,24 +18,24 @@ export default function insertClasses(
                         classes: "hhh",
                     }
                 },
-                import: 'xx',
                 insert: 6,
                 classes: '{xx} {yy}'
             }
         }
      */
-    configs,
-    prefix,
-    extraCss,
+    configs
 ) {
     Object.keys(configs).forEach(index => {
         const config = configs[index];
         let rs = [];
-        if (extraCss && config.import) {
-            rs.push(prefix + '-' + config.import);
+        if (config.props && config.props.base && config.props.base.classes) {
+            rs.push(config.props.base.classes);
         }
         if (config.classes) {
             rs.push(config.classes);
+        }
+        if (config.state) {
+            rs.push(config.state);
         }
         if (rs.length) {
             magicContent.prependLeft(config.insert, `class="${rs.join(' ')}" `);

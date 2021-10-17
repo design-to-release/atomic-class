@@ -44,7 +44,8 @@ export default {
     },
     plugins: [
         ac({
-            extraCss: true,
+            // extraCss: true,
+            target: 'tailwind', // less, sass, tailwind
         }),
         svelte({
             compilerOptions: {

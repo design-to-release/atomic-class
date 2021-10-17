@@ -19,6 +19,7 @@
     "astring": "^1.7.5",
     "magic-string": "^0.25.7",
     "rxjs": "^7.3.0",
+    "shorthash2": "^1.0.3",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
