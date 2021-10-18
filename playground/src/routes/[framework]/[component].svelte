@@ -48,4 +48,4 @@
 	<Console {error} />
 </section>
 
-<link rel="stylesheet" href="/static/packages/playground/svelte-components/bundle.css">
+<link rel="stylesheet" href="/packages/playground/svelte-components/bundle.css">
