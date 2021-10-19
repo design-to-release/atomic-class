@@ -1,6 +1,6 @@
 # Atomic Class
 
-A reactive framework for component to control classsheet.
+A framework for component to configure atomic style.
 
 - [Svelte](./svelte)
 

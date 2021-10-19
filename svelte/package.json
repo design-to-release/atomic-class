@@ -1,7 +1,7 @@
 {
   "name": "@atomic-class/svelte",
   "version": "0.2.0",
-  "description": "a tool that supports component to configure atomic style",
+  "description": "a framework for component to configure atomic style",
   "main": "rollup/index.js",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
