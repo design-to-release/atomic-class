@@ -19,7 +19,16 @@ describe('processAcAttrs', () => {
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html.children[0];
         const rs = processAcAttrs(node, magicString, 'ac');
-        expect(rs).toEqual({default: {classes: 'ddd dd'}});
+        expect(rs).toEqual({default: {t: ['ddd', 'dd']}});
+        expect(magicString.toString()).toEqual('<span ></span>');
+    });
+
+    it('<span ac-default="ddd dd %ss @aa $mm /xx"></span>', () => {
+        const html = '<span ac-default="ddd dd %ss @aa $mm /xx"></span>';
+        const magicString = new MagicString(html);
+        const node = parse(magicString.toString()).html.children[0];
+        const rs = processAcAttrs(node, magicString, 'ac');
+        expect(rs).toEqual({default: {t: ['ddd', 'dd'], p: ["%ss"], a: ["@aa"], m: ['$mm']}});
         expect(magicString.toString()).toEqual('<span ></span>');
     });
 

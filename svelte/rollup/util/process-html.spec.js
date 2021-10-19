@@ -23,7 +23,6 @@ describe('processNode', () => {
             0: {
                 name: 'span',
                 state: '{p0}', props: {
-                    base: {classes: undefined},
                 },
                 insert: 6,
                 classes: undefined,
@@ -36,8 +35,8 @@ describe('processNode', () => {
         expect(magicString.toString()).toEqual('<span ></span>');
     });
 
-    it('<span ac-state={p0} class="ccc cc {CCC}"></span>', () => {
-        const html = '<span ac-state={p0} class="ccc cc {CCC}"></span>';
+    it('<span ac-state={p0} ac-class="ll" class="ccc cc {CCC}"></span>', () => {
+        const html = '<span ac-state={p0} ac-class="ll" class="ccc cc {CCC}"></span>';
         const magicString = new MagicString(html);
         const node = parse(magicString.toString()).html;
         const rs = processHtml(node, magicString, 'ac');
@@ -46,19 +45,19 @@ describe('processNode', () => {
                 name: 'span',
                 state: '{p0}',
                 props: {
-                    base: {
-                        classes: 'ccc cc',
+                    class: {
+                        t: ['ll'],
                     },
                 },
                 insert: 6,
-                classes: '{CCC}',
+                classes: 'ccc cc {CCC}',
                 end: html.length,
                 id: '_D9W0',
                 elementPath: ['span._D9W0'],
                 acPath: ['_D9W0']
             },
         });
-        expect(magicString.toString()).toEqual('<span  ></span>');
+        expect(magicString.toString()).toEqual('<span   ></span>');
     });
 
     it('<span ac-state={p0} class="ccc cc {CCC}" ac-default="ddd dd" ac-hover="hhh"></span>', () => {
@@ -71,18 +70,15 @@ describe('processNode', () => {
                 name: 'span',
                 state: '{p0}',
                 props: {
-                    base: {
-                        classes: 'ccc cc',
-                    },
                     default: {
-                        classes: 'ddd dd',
+                        t: ['ddd', 'dd'],
                     },
                     hover: {
-                        classes: 'hhh',
+                        t: ['hhh'],
                     },
                 },
                 insert: 6,
-                classes: '{CCC}',
+                classes: 'ccc cc {CCC}',
                 end: html.length,
                 id: '_D9W0',
                 elementPath: ['span._D9W0'],
@@ -102,12 +98,11 @@ describe('processNode', () => {
                 name: 'span',
                 state: '{p0} {p1}',
                 props: {
-                    base: {classes: undefined},
                     default: {
-                        classes: 'ddd dd',
+                        t: ['ddd', 'dd'],
                     },
                     hover: {
-                        classes: 'hhh',
+                        t: ['hhh'],
                     },
                 },
                 insert: 6,
@@ -131,12 +126,11 @@ describe('processNode', () => {
                 name: 'span',
                 state: undefined,
                 props: {
-                    base: {classes: undefined},
                     default: {
-                        classes: 'ddd dd',
+                        t: ['ddd', 'dd'],
                     },
                     hover: {
-                        classes: 'hhh',
+                        t: ['hhh'],
                     },
                 },
                 insert: 11,
@@ -162,18 +156,15 @@ describe('processNode', () => {
                 name: 'span',
                 state: '{p0}',
                 props: {
-                    base: {
-                        classes: 'ccc cc',
-                    },
                     default: {
-                        classes: 'ddd dd',
+                        t: ['ddd', 'dd'],
                     },
                     hover: {
-                        classes: 'hhh',
+                        t: ['hhh'],
                     },
                 },
                 insert: 6,
-                classes: '{CCC}',
+                classes: 'ccc cc {CCC}',
                 end: html.length,
                 id: 'aaa',
                 elementPath: ['span.aaa'],

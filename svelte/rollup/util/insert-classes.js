@@ -9,14 +9,11 @@ export default function insertClasses(
                 id: "_AAA",
                 state: ['p0'],
                 props: {
-                    base: {
-                        classes: "ccc cc",
-                    },
                     default: {
-                        classes: "ddd dd",
+                        t: ["ddd", dd"],
                     },
                     hover: {
-                        classes: "hhh",
+                        t: ["hhh"],
                     }
                 },
                 insert: 6,
@@ -29,17 +26,17 @@ export default function insertClasses(
     Object.keys(configs).forEach(index => {
         const config = configs[index];
         let rs = [];
-        if (config.props && config.props.base && config.props.base.classes) {
-            rs.push(config.props.base.classes);
-        }
-        if (config.classes) {
-            rs.push(config.classes);
+        if (config.id) {
+            rs.push(config.id);
         }
         if (config.state) {
             rs.push(config.state);
         }
-        if (config.id) {
-            rs.push(config.id);
+        if (config.classes) {
+            rs.push(config.classes);
+        }
+        if (config.props && config.props.class && config.props.class.t) {
+            rs.push(...config.props.class.t);
         }
         if (rs.length) {
             magicContent.prependLeft(config.insert, `class="${rs.join(' ')}" `);

@@ -1,4 +1,4 @@
 import Button from './Button.svelte';
-import App from './App.svelte';
+import './App.svelte';
 
 export { Button };

@@ -1,12 +1,14 @@
 import svelte from 'rollup-plugin-svelte';
-import sveltePreprocess from 'svelte-preprocess';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import livereload from 'rollup-plugin-livereload';
 import {terser} from 'rollup-plugin-terser';
-import css from 'rollup-plugin-css-only';
+import tildeImporter from 'node-sass-tilde-importer';
+import scss from 'rollup-plugin-scss';
 import typescript from '@rollup/plugin-typescript';
+import copy from 'rollup-plugin-copy';
 import ac from '../rollup/index';
+const svelteConfig = require('../svelte.config');
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -45,24 +47,20 @@ export default {
     },
     plugins: [
         ac({
-            // extraCss: true,
             target: 'tailwind', // less, sass, tailwind
         }),
-        svelte({
-            preprocess: sveltePreprocess({
-                sourceMap: !production,
-                postcss: {
-                  plugins: [require('tailwindcss'), require('autoprefixer')()],
-                },
-            }),
-            compilerOptions: {
-                // enable run-time checks when not in production
-                dev: !production,
-            },
-        }),
+        svelte(svelteConfig),
         // we'll extract any component CSS out into
         // a separate file - better for performance
-        css({output: 'bundle.css'}),
+        // css({output: 'bundle.css'}),
+        scss({
+            include: ['/**/*.css', '/**/*.scss', '/**/*.sass'],
+            importer: tildeImporter,
+            // output: `bundle.css`,
+            // outputStyle: production ? 'compressed' : 'compact',
+            // watch: './src/styles',
+        }),
+      
 
         // If you have external dependencies installed from
         // npm, you'll most likely need these plugins. In
@@ -79,7 +77,11 @@ export default {
             inlineSources: !production,
         }),
         commonjs(),
-
+        copy({
+            targets: [
+                { src: 'demo/assets/**/*', dest: '../playground/static/packages/playground/svelte-components/assets' }
+            ]
+        }),
         // In dev mode, call `npm run start` once
         // the bundle has been generated
         !production && serve(),

@@ -4,6 +4,7 @@ import processAcAttrs from './process-ac-attrs';
 import processAcId from './process-ac-id';
 import processClass from './process-class';
 import UniqueId from './unique-id';
+import merge from './merge-class';
 
 export default function processHtml(root, magicContent, prefix, identifier) {
     const configs = {};
@@ -34,9 +35,6 @@ export default function processHtml(root, magicContent, prefix, identifier) {
             /** <span class="ddd dd {c}">  baseClasses="ddd d"  + <span class="{c}"></span> */
             const cssrs = processClass(node, magicContent);
             
-            props.base = {classes: cssrs.baseClasses || undefined};
-            
-
             /** <span ac-import="aconf.dd"> imp = "dd" */
             // const imp = processAcImport(node, magicContent, prefix);
             configs[node.start] = {
@@ -45,7 +43,7 @@ export default function processHtml(root, magicContent, prefix, identifier) {
                 state,
                 props,
                 insert: node.attributes[0].start,
-                classes: cssrs.classes,
+                classes: merge([cssrs.baseClasses , cssrs.classes]),
                 end: node.end,
                 elementPath: [...elementPath],
                 acPath: [...acPath],
