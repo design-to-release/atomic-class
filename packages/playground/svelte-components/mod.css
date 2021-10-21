@@ -1,49 +1,3 @@
-.icon.block.svelte-1s6c02c:after {
-  content: "block";
-}
-
-.icon.default.svelte-1s6c02c:after {
-  content: "done";
-}
-
-._D9W0.svelte-1s6c02c {
-  margin: 0.5rem;
-  border-radius: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-weight: 700;
-  --tw-text-opacity:1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
-}
-
-._D9W0.default.svelte-1s6c02c {
-  --tw-bg-opacity:1;
-  background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
-}
-
-._D9W0.hover.svelte-1s6c02c {
-  cursor: pointer;
-  --tw-bg-opacity:1;
-  background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
-}
-
-._D9W0.active.svelte-1s6c02c {
-  --tw-bg-opacity:1;
-  background-color: rgba(245, 158, 11, var(--tw-bg-opacity));
-}
-
-._D9W0.disabled.svelte-1s6c02c {
-  cursor: not-allowed;
-  --tw-bg-opacity:1;
-  background-color: rgba(107, 114, 128, var(--tw-bg-opacity));
-  --tw-text-opacity:1;
-  color: rgba(243, 244, 246, var(--tw-text-opacity));
-}
-
 .m-2 {
   margin: 0.5rem;
 }
@@ -132,4 +86,50 @@
   word-wrap: normal;
   direction: ltr;
   -webkit-font-smoothing: antialiased;
+}
+
+.icon.block.svelte-1s6c02c:after {
+  content: "block";
+}
+
+.icon.default.svelte-1s6c02c:after {
+  content: "done";
+}
+
+._D9W0.svelte-1s6c02c {
+  margin: 0.5rem;
+  border-radius: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 700;
+  --tw-text-opacity:1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+._D9W0.default.svelte-1s6c02c {
+  --tw-bg-opacity:1;
+  background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
+}
+
+._D9W0.hover.svelte-1s6c02c {
+  cursor: pointer;
+  --tw-bg-opacity:1;
+  background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
+}
+
+._D9W0.active.svelte-1s6c02c {
+  --tw-bg-opacity:1;
+  background-color: rgba(245, 158, 11, var(--tw-bg-opacity));
+}
+
+._D9W0.disabled.svelte-1s6c02c {
+  cursor: not-allowed;
+  --tw-bg-opacity:1;
+  background-color: rgba(107, 114, 128, var(--tw-bg-opacity));
+  --tw-text-opacity:1;
+  color: rgba(243, 244, 246, var(--tw-text-opacity));
 }
