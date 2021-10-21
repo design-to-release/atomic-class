@@ -1,51 +1,62 @@
-<script context="module" lang="ts">
-	export async function load({ page: { params, host }, fetch }: LoadInput): Promise<LoadOutput> {
-		const { framework, component } = params;
-		const resp = await fetch(`${host ? base : ''}/${framework}/${component}.json`);
-		const { code, components } = await resp.json();
-
-		return {
-			props: {
-				framework,
-				exampleCode: code,
-				currComponent: component,
-				components
-			}
-		};
-	}
-</script>
-
 <script lang="ts">
-	import type { LoadInput, LoadOutput } from '@sveltejs/kit';
-	import type { EditorView } from '@codemirror/basic-setup';
+	import type { EditorTextChangeEvent, EditorWindow } from '$lib/Editor/Editor.svelte';
 
-	import { base } from '$app/paths';
+	import { Writable, writable } from 'svelte/store';
+	import { page } from '$app/stores';
+	import Examples from '$lib/examples';
 	import Sidebar from '$lib/Sidebar.svelte';
-	import Editor from '$lib/Editor.svelte';
+	import Editor from '$lib/Editor/Editor.svelte';
 	import Preview from '$lib/Preview.svelte';
 	import Console from '$lib/Console.svelte';
 
-	export let framework: string;
-	export let exampleCode: string;
-	export let currComponent: string;
-	export let components: string[];
-
-	let code = exampleCode;
-	let edView: EditorView;
-	let error: Error;
+	let framework: string;
+	let component: string;
+	let code: string;
+	let components: string[];
+	let editorWindows: Writable<EditorWindow[]> = writable([]);
+	const edRefresh = writable(0);
 
 	$: {
-		if (edView) {
-			edView.dispatch({ changes: { from: 0, to: edView.state.doc.length, insert: exampleCode } });
-		}
+		const { framework: f, component: c } = $page.params;
+		framework = f;
+		component = c;
+
+		code = Examples[framework][component];
+		components = Object.keys(Examples[framework]);
+
+		editorWindows.set([
+			{
+				name: 'JavaScript',
+				code,
+				lang: 'js'
+			},
+			{
+				name: 'CSS',
+				code: '',
+				lang: 'css'
+			}
+		]);
+
+		edRefresh.set(Math.random());
+	}
+
+	let error: Error;
+
+	// TODO: Use window change event.
+	function editorTextChangeHandler({ detail }: EditorTextChangeEvent) {
+		const { lang, source } = detail;
+		$editorWindows[lang === 'js' ? 0 : 1].code = source;
 	}
 </script>
 
-<Sidebar list={components} actived={currComponent} />
+<Sidebar list={components} actived={component} />
 <section class="flex flex-col w-full">
-	<Preview {code} {framework} bind:error />
-	<Editor className="border-b border-t border-gray-200" bind:edView bind:docStr={code} />
+	<Preview js={$editorWindows[0].code} css={$editorWindows[1].code} {framework} bind:error />
+	<Editor
+		className="border-b border-t border-gray-200"
+		{editorWindows}
+		refresh={edRefresh}
+		on:textchange={editorTextChangeHandler}
+	/>
 	<Console {error} />
 </section>
-
-<link rel="stylesheet" href="{base}/packages/playground/svelte-components/mod.css">

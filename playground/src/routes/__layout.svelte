@@ -1,13 +1,7 @@
 <script lang="ts">
-	import { base } from '$app/paths';
-
-	import Header from '$lib/header/Header.svelte';
+	import Header from '$lib/Header/Header.svelte';
 	import '../app.postcss';
 </script>
-
-<svelte:head>
-	<base href="{base}/" />
-</svelte:head>
 
 <Header />
 

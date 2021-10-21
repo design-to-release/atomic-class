@@ -1,4 +1,4 @@
-import button from './svelte/Button';
+import button from './svelte/Button.js';
 
 export default {
 	button

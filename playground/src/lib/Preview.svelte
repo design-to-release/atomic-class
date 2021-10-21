@@ -1,6 +1,12 @@
 <script lang="ts">
+	import { base } from '$app/paths';
+
+	import { onMount } from 'svelte';
+	import { element } from 'svelte/internal';
+
 	export let framework: string;
-	export let code: string;
+	export let js: string;
+	export let css = '';
 	export let error: Error;
 
 	const codeRunner = {
@@ -8,9 +14,13 @@
 		svelte: runSvelteCode
 	};
 
+	let selfRootRef: HTMLElement;
+	let appEl: HTMLElement;
+	let styleEl: HTMLStyleElement;
+
 	$: {
-		if (typeof code === 'string') {
-			const dataURI = `data:text/javascript;charset=utf-8,${encodeURIComponent(code)}`;
+		if (typeof js === 'string') {
+			const dataURI = `data:text/javascript;charset=utf-8,${encodeURIComponent(js)}`;
 			import(dataURI)
 				.then(({ default: App }) => {
 					error = undefined;
@@ -22,15 +32,30 @@
 		}
 	}
 
-	let selfRootRef: HTMLElement;
+	$: {
+		if (styleEl) {
+			styleEl.textContent = css;
+		}
+	}
+
+	onMount(() => {
+		const root = selfRootRef.attachShadow({ mode: 'open' });
+		const linkEl = element('link');
+		linkEl.rel = 'stylesheet';
+		linkEl.href = `${base}/packages/playground/svelte-components/mod.css`;
+		appEl = element('section');
+		styleEl = element('style');
+		root.append(linkEl, styleEl, appEl);
+	});
 
 	function runSanCode(App: new () => { attach(el: HTMLElement): void }) {
+		appEl.replaceChildren();
 		const app = new App();
-		app.attach(selfRootRef);
+		app.attach(appEl);
 	}
 
 	function runSvelteCode(App: HTMLElement) {
-		selfRootRef.append(App);
+		appEl.replaceChildren(App);
 	}
 </script>
 
