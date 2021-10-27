@@ -3,24 +3,23 @@ import { Button } from "@atomic-class/playground/san-components";
 
 export default defineComponent({
   template: \`
-    <div>
-      <ac-button
-        text="{{ button.text }}"
-        keycode="{{ button.keycode }}"
-      ></ac-button>
+  <div>
+    <ac-button
+      text="{{ buttonA.text }}"
+      keycode="{{ buttonA.keycode }}"
+    ></ac-button>
 
-      <ac-button
-        text="{{ buttonDisabled.text }}"
-        keycode="{{ buttonDisabled.keycode }}"
-        states="{{ buttonDisabled.states }}"
-      ></ac-button>
+    <ac-button
+      text="{{ buttonB.text }}"
+      keycode="{{ buttonB.keycode }}"
+      state="{{ buttonB.state }}"
+    ></ac-button>
 
-      <ac-button
-        text="{{ buttonCustom.text }}"
-        keycode="{{ buttonCustom.keycode }}"
-        props="{{ buttonCustom.props }}"
-      ></ac-button>
-    </div>
+    <ac-button
+      text="{{ buttonC.text }}"
+      keycode="{{ buttonC.keycode }}"
+    ></ac-button>
+  </div>
   \`,
 
   components: {
@@ -29,31 +28,18 @@ export default defineComponent({
 
   initData() {
     return {
-      button: {
+      buttonA: {
         text: "Please Press A",
         keycode: 65,
       },
-      buttonDisabled: {
+      buttonB: {
         text: "Please Press B",
         keycode: 66,
-        states: ["disable"],
+        state: "disabled",
       },
-      buttonCustom: {
-        keycode: 67,
+      buttonC: {
         text: "Please Press C",
-        props: {
-          base: { classes: "text-yellow" },
-          default: { classes: "bg-green", overlap: false },
-          hover: {
-            classes: "bg-greenyellow cursor-pointer",
-            overlap: false,
-          },
-          active: { classes: "bg-orange", overlap: true },
-          disable: {
-            classes: "bg-black-400 text-white-900 cursor-not-allowed",
-            overlap: true,
-          },
-        },
+        keycode: 67,
       },
     };
   },

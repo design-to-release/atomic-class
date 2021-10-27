@@ -1,6 +1,7 @@
 const SanLoaderPlugin = require('san-loader/lib/plugin');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
 const AtomicClassSanWebpack = require('@atomic-class/san/webpack');
+const tailwindcss = require('tailwindcss');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const { join } = require('path');
 
@@ -19,7 +20,7 @@ module.exports = {
         test: /\.san$/,
         use: [
           { loader: 'san-loader', options: { esModule: true } },
-          { loader: AtomicClassSanWebpack.loader, options: { dbg: false } },
+          { loader: AtomicClassSanWebpack.loader, options: { dbg: true } },
         ],
       },
       {
@@ -27,10 +28,18 @@ module.exports = {
         use: 'babel-loader',
       },
       {
-        test: /\.css$/,
+        test: /\.(post)?css$/,
         use: [
           'style-loader',
           'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [tailwindcss],
+              },
+            },
+          },
         ],
       },
       {
@@ -42,6 +51,6 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({ template: './index.html' }),
     new SanLoaderPlugin({ esModule: true }),
-    new AtomicClassSanWebpack.Plugin({ css: { paths: ['./preset.css'], treeShaking: false } }),
+    // new AtomicClassSanWebpack.Plugin({ css: { paths: ['./preset.css'], treeShaking: false } }),
   ],
 };

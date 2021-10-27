@@ -17,6 +17,7 @@
 	let selfRootRef: HTMLElement;
 	let appEl: HTMLElement;
 	let styleEl: HTMLStyleElement;
+	let linkEl: HTMLLinkElement;
 
 	$: {
 		if (typeof js === 'string') {
@@ -40,21 +41,22 @@
 
 	onMount(() => {
 		const root = selfRootRef.attachShadow({ mode: 'open' });
-		const linkEl = element('link');
+		linkEl = element('link');
 		linkEl.rel = 'stylesheet';
-		linkEl.href = `${base}/packages/playground/svelte-components/mod.css`;
 		appEl = element('section');
 		styleEl = element('style');
 		root.append(linkEl, styleEl, appEl);
 	});
 
 	function runSanCode(App: new () => { attach(el: HTMLElement): void }) {
+		linkEl.href = `${base}/packages/playground/san-components/mod.css`;
 		appEl.replaceChildren();
 		const app = new App();
 		app.attach(appEl);
 	}
 
 	function runSvelteCode(App: HTMLElement) {
+		linkEl.href = `${base}/packages/playground/svelte-components/mod.css`;
 		appEl.replaceChildren(App);
 	}
 </script>
