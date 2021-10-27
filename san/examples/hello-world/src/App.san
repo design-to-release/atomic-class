@@ -1,20 +1,19 @@
 <template>
   <div>
     <my-button
-      text="{{ button.text }}"
-      keycode="{{ button.keycode }}"
+      text="{{ buttonA.text }}"
+      keycode="{{ buttonA.keycode }}"
     ></my-button>
 
     <my-button
-      text="{{ buttonDisabled.text }}"
-      keycode="{{ buttonDisabled.keycode }}"
-      states="{{ buttonDisabled.states }}"
+      text="{{ buttonB.text }}"
+      keycode="{{ buttonB.keycode }}"
+      state="{{ buttonB.state }}"
     ></my-button>
 
     <my-button
-      text="{{ buttonCustom.text }}"
-      keycode="{{ buttonCustom.keycode }}"
-      props="{{ buttonCustom.props }}"
+      text="{{ buttonC.text }}"
+      keycode="{{ buttonC.keycode }}"
     ></my-button>
   </div>
 </template>
@@ -29,28 +28,18 @@ export default {
 
   initData() {
     return {
-      button: {
+      buttonA: {
         text: "Please Press A",
         keycode: 65,
       },
-      buttonDisabled: {
+      buttonB: {
         text: "Please Press B",
         keycode: 66,
-        states: ["disable"],
+        state: "disabled",
       },
-      buttonCustom: {
-        keycode: 67,
+      buttonC: {
         text: "Please Press C",
-        props: {
-          base: { classes: "text-yellow" },
-          default: { classes: "bg-green", overlap: false },
-          hover: { classes: "bg-greenyellow cursor-pointer", overlap: false },
-          active: { classes: "bg-orange", overlap: true },
-          disable: {
-            classes: "bg-black-400 text-white-900 cursor-not-allowed",
-            overlap: true,
-          },
-        },
+        keycode: 67,
       },
     };
   },

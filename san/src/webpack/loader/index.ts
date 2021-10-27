@@ -2,15 +2,16 @@ import type { TreeConstructor } from 'hyntax';
 import type { LoaderContext } from 'webpack';
 
 import hash from 'hash-sum';
-import { constructTree, tokenize } from 'hyntax';
 import MagicString from 'magic-string';
-import { Project, SyntaxKind } from 'ts-morph';
 import { PluginSymbol } from '../plugin';
-import { getIninDataReturnStmt } from './ast/script';
+import splitSFC from './ast/split-sfc';
 
 const enum ACKey {
   NS = 'ac-',
   Props = 'ac-props',
+  Id = 'ac-id',
+  State = 'ac-state',
+  Class = 'ac-class',
 }
 
 export default async function(this: LoaderContext<{ dbg: boolean }>, contents: string): Promise<string> {
@@ -23,34 +24,32 @@ export default async function(this: LoaderContext<{ dbg: boolean }>, contents: s
     console.warn('\x1B[33mAtomic Class Webpack Plugin maybe missing!\x1B[39m');
   }
 
-  const magicContent = new MagicString(contents);
-  const { tokens } = tokenize(contents);
-  const { ast } = constructTree(tokens);
-
-  const tpl = ast.content.children.find(
-    ({ nodeType, content }) => nodeType === 'tag' && (content as TreeConstructor.NodeContents.Tag).name === 'template',
-  ) as TreeConstructor.TagNode | undefined;
-  const script = ast.content.children.find(({ nodeType }) => nodeType === 'script') as
-    | TreeConstructor.ScriptNode
-    | undefined;
-
-  if (!tpl) {
-    return contents;
+  function $collectingClasses(classList: string[]): void {
+    if (adoptedClasses) {
+      for (const i of classList) {
+        adoptedClasses.add(i);
+      }
+    }
   }
+
+  const magicContent = new MagicString(contents);
+
+  const [tpl, _script] = splitSFC(contents);
 
   interface ACProp {
-    classes: string;
-    overlap: boolean;
+    tailwind: string[];
   }
   type ACProps = Record<string, ACProp>;
-  interface ACPropsVarFlag {
-    id: string;
-    userDefinedName?: string;
+  interface ACElement {
+    tagName: string;
+    customId: string;
+    props: ACProps;
+    stateExpr: string;
   }
 
   // Key: definition of var
   // Value: props
-  const elProps = new WeakMap<ACPropsVarFlag, ACProps>();
+  // const elProps = new WeakMap<ACPropsVarFlag, ACProps>();
 
   // Valid var definitions, in order to preserve the reference,
   // so that the data in the WeakMap is not destroyed.
@@ -58,117 +57,100 @@ export default async function(this: LoaderContext<{ dbg: boolean }>, contents: s
   // user-defined variable names and ACPropsVarFlag,
   // which is used to query ACProps in TypeScript AST
   // by the `Identifier` of `PropertyAssignment`.
-  const validPropsVarDefs = new Map<string, ACPropsVarFlag>();
+  // const validPropsVarDefs = new Map<string, ACPropsVarFlag>();
+
+  const acElements = new Set<ACElement>();
 
   // The children of the current element will be added
   // to the end of the stack, and the pointer will keep moving forward
   const stack = [tpl];
-  for (let usedIndex = 0, i = 0; i < stack.length; ++i) {
-    let curr = stack[i].content;
-
-    // If the user defines a variable and passes it into the `ac-props`,
-    // then we will extract the contents of the current element all attributes
-    // that start with `ac-*`, and use them as the content of the variable.
-    const elPropsVarFuture: ACPropsVarFlag = {
-      id: `_ac_props_${usedIndex}_${hash(curr)}`,
-    };
-
-    const currElProps: ACProps = {};
-    elProps.set(elPropsVarFuture, currElProps);
+  for (let i = 0; i < stack.length; ++i) {
+    const curr = stack[i].content;
 
     if (curr.children) {
       stack.push(...curr.children.filter((i) => i.nodeType === 'tag') as TreeConstructor.TagNode[]);
     }
 
-    if (curr.attributes) {
-      for (const attr of curr.attributes) {
-        const attrKey = attr.key!.content;
+    if (!curr.attributes) {
+      continue;
+    }
 
-        // Process ac-props
-        if (attrKey === ACKey.Props) {
-          elPropsVarFuture.userDefinedName = attr.value?.content;
-          magicContent.overwrite(
-            attr.key!.startPosition,
-            attr.endWrapper!.endPosition + 1,
-            '',
-          );
-        } // Process ac-* except ac-props
-        else if (attrKey.startsWith(ACKey.NS)) {
-          magicContent.overwrite(
-            attr.key!.startPosition,
-            attr.endWrapper!.endPosition + 1,
-            '',
-          );
+    let isACEl = false;
+    let customId: string | undefined;
+    let stateExpr: string | undefined;
+    let classAttrRef: TreeConstructor.TagAttribute | undefined;
+    const id = `${ACKey.NS}${hash(curr)}`;
+    const props: ACProps = {};
 
-          // Examples:
-          //   ac-active-ol => ['active', 'ol']
-          //   ac-active => ['active', undefined]
-          const [state, olFlag] = attr.key!.content.split('-').slice(1) as [string, string?];
-          currElProps[state] = {
-            classes: attr.value?.content.trim() ?? '',
-            overlap: olFlag ? true : false,
-          };
-        } // Only for collecting used class names.
-        else if (attrKey === 'class') {
+    for (const attr of curr.attributes) {
+      // If attribute exists, its key must also fucking exist.
+      const attrKey = attr.key!.content;
+
+      if (!attrKey.startsWith(ACKey.NS)) {
+        if (attrKey === 'class') {
+          classAttrRef = attr;
           // `{{(.*?)}}` is used to exclude variables from the template.
-          const classes = attr.value?.content.replace(/{{(.*?)}}/g, '').trim().split(/\s+/);
-          if (classes) {
-            for (const cls of classes) {
-              adoptedClasses?.add(cls);
-            }
-          }
+          $collectingClasses(classStrToList(attr.value?.content.replace(/{{(.*?)}}/g, '') ?? ''));
         }
+        continue;
       }
-      if (elPropsVarFuture.userDefinedName) {
-        ++usedIndex;
-        validPropsVarDefs.set(elPropsVarFuture.userDefinedName, elPropsVarFuture);
+
+      //
+      // Now analyze the attributes starting with "ac-".
+      //
+
+      // It's of course an AC Element.
+      isACEl = true;
+      magicContent.remove(attr.key!.startPosition, attr.endWrapper!.endPosition + 1);
+
+      // The IFELSE block here is only used to determine the attrKey,
+      // please make sure not to add other logic.
+      if (attrKey === ACKey.Id) {
+        // I won't waste any time on your crappy code.
+        // Even if you set an empty id, I'll still move on.
+        customId = attr.value?.content ?? id;
+      } else if (attrKey === ACKey.State) {
+        stateExpr = attr.value!.content;
+      } else {
+        const classList = classStrToList(attr.value?.content ?? '');
+        $collectingClasses(classList);
+        // So the later defined attributes will override the previous.
+        props[attrKey.slice(ACKey.NS.length)] = {
+          tailwind: [...classList],
+        };
       }
+    }
+
+    if (isACEl) {
+      customId = customId ?? id;
+      stateExpr = stateExpr ?? '';
+      let additionalClasses = `${customId} ${stateExpr} ${props['class']?.tailwind.join(' ') ?? ''}`.trim();
+
+      if (classAttrRef?.value) {
+        const trailingSpace = classAttrRef.value.content === '' ? '' : ' ';
+        magicContent.appendRight(classAttrRef.startWrapper!.startPosition + 1, `${additionalClasses}${trailingSpace}`);
+      } else {
+        magicContent.appendRight(curr.openStart.endPosition + 1, ` class="${additionalClasses}"`);
+      }
+      acElements.add({
+        tagName: curr.name,
+        customId,
+        props,
+        stateExpr,
+      });
     }
   }
 
-  // Extracts the used class names.
-  //
-  // ============= WARNING =============
-  // Be sure to be alert to the potential
-  // performance problems caused by for loop nesting!!!
-  // ============= WARNING =============
-  //
-  for (const [_, def] of validPropsVarDefs) {
-    const props = Object.values(elProps.get(def)!);
-    for (const prop of props) {
-      // After ensuring that there are no extra spaces
-      // at the beginning and end of classes,
-      // we can omit the filter operator.
-      const classes = prop.classes.split(/\s+/);
-      for (const cls of classes) {
-        adoptedClasses?.add(cls);
+  magicContent.append('<style lang="postcss">');
+  for (const el of acElements) {
+    for (const [state, props] of Object.entries(el.props)) {
+      if (state === 'class') {
+        continue;
       }
+      magicContent.append(`\n.${el.customId}.${state}{@apply ${props.tailwind.join(' ')};}`);
     }
   }
-
-  if (script) {
-    const basePos = script.content.value.startPosition;
-
-    const proj = new Project();
-    const sourceFile = proj.createSourceFile(
-      'temp.ts',
-      script.content.value.content,
-    );
-
-    const exportAssignment = sourceFile.getExportAssignment((i) => !i.isExportEquals())!;
-    const returnStmt = getIninDataReturnStmt(exportAssignment);
-    const acPropsAssignments = returnStmt.getDescendantsOfKind(SyntaxKind.PropertyAssignment).filter(i =>
-      validPropsVarDefs.has(i.getName())
-    );
-
-    for (const i of acPropsAssignments) {
-      const name = i.getName();
-      const props = elProps.get(validPropsVarDefs.get(name)!)!;
-      const startPos = basePos + i.getStart();
-      const endPos = basePos + i.getEnd();
-      magicContent.overwrite(startPos, endPos, `${name}: ${JSON.stringify(props)}`);
-    }
-  }
+  magicContent.append('\n</style>');
 
   contents = magicContent.toString();
 
@@ -177,4 +159,8 @@ export default async function(this: LoaderContext<{ dbg: boolean }>, contents: s
   }
 
   return contents;
+}
+
+function classStrToList(cls: string): string[] {
+  return cls.trim().split(/\s+/).filter(i => i);
 }

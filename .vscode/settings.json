@@ -1,5 +1,8 @@
 {
     "tailwindCSS.experimental.classRegex": [
         "ac-[^=]*=\\s*[\"']([^\"']*?)[\"']"
-    ]
+    ],
+    "tailwindCSS.includeLanguages": {
+        "san": "html"
+    }
 }

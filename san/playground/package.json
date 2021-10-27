@@ -4,9 +4,9 @@
     "build": "webpack"
   },
   "dependencies": {
-    "@atomic-class/action": "0.1.0",
-    "@atomic-class/core": "0.0.1",
-    "@atomic-class/process": "0.0.1"
+    "@atomic-class/action": "0.1.1",
+    "@atomic-class/core": "0.1.1",
+    "@atomic-class/process": "0.1.1"
   },
   "devDependencies": {
     "@atomic-class/san": "file:../dist",
@@ -14,9 +14,12 @@
     "babel-loader": "^8.2.2",
     "css-loader": "^6.2.0",
     "html-loader": "^2.1.2",
+    "mini-css-extract-plugin": "^2.4.3",
+    "postcss-loader": "^6.2.0",
     "san": "^3.10.10",
     "san-loader": "^0.3.0",
     "style-loader": "^3.2.1",
+    "tailwindcss": "^2.2.17",
     "webpack": "^5.51.1",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.0.0"
