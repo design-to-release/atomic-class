@@ -4,7 +4,7 @@
     "build": "webpack"
   },
   "dependencies": {
-    "@atomic-class/action": "0.1.1",
+    "@atomic-class/action": "0.1.2",
     "@atomic-class/core": "0.1.1",
     "@atomic-class/process": "0.1.1"
   },

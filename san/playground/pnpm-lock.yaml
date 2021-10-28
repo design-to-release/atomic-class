@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@atomic-class/action': 0.1.1
+  '@atomic-class/action': 0.1.2
   '@atomic-class/core': 0.1.1
   '@atomic-class/process': 0.1.1
   '@atomic-class/san': file:../dist
@@ -20,7 +20,7 @@ specifiers:
   webpack-dev-server: ^4.0.0
 
 dependencies:
-  '@atomic-class/action': 0.1.1
+  '@atomic-class/action': 0.1.2
   '@atomic-class/core': 0.1.1
   '@atomic-class/process': 0.1.1
 
@@ -42,8 +42,8 @@ devDependencies:
 
 packages:
 
-  /@atomic-class/action/0.1.1:
-    resolution: {integrity: sha512-xL8mRGagb0xQ22vN8VT1f9qhgu1dX+sR2H7tR1mVTGpQ2oe0MHH5eSudS6dJ8mMuzgyhmW7jBk7BMaAFGziXcQ==}
+  /@atomic-class/action/0.1.2:
+    resolution: {integrity: sha512-70xfdHh7OG6em7xdmCQv6IkY+skPUJx5f9v1/zmrdqiHaS5iG02cWVgJ+Pt49jSkSQvDSY1eISq634jiSF8m+g==}
     dependencies:
       '@rollup/pluginutils': 3.1.0
       acorn: 8.5.0

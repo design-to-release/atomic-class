@@ -50,7 +50,6 @@
 					filename: 'app.svelte',
 				}),
 			);
-			console.log(js.code);
 			const dataURI = `data:text/javascript;charset=utf-8,${encodeURIComponent(js.code)}`;
 			import(dataURI)
 				.then(({ default: App }) => {
