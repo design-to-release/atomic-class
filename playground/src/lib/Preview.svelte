@@ -42,23 +42,30 @@
 	$: {
 		if (typeof svelte === 'string') {
 			// console.log(svelte);
-			const { js, css } = compile(
-				svelte,
-				Object.assign({}, {
-						// dev: false, css: false
-					}, {
-					filename: 'app.svelte',
-				}),
-			);
-			const dataURI = `data:text/javascript;charset=utf-8,${encodeURIComponent(js.code)}`;
-			import(dataURI)
-				.then(({ default: App }) => {
-					error = undefined;
+			let rs;
+			try {
+				rs = compile(
+					svelte,
+					Object.assign({}, {
+							// dev: false, css: false
+						}, {
+						filename: 'app.svelte',
+					}),
+				);
+			} catch (e) {
+				error = e;
+			}
+			if (rs) {
+				const dataURI = `data:text/javascript;charset=utf-8,${encodeURIComponent(rs.js.code)}`;
+				import(dataURI)
+					.then(({ default: App }) => {
+						error = undefined;
 
-					selfRootRef.innerHTML = '';
-					codeRunner[framework](App);
-				})
-				.catch((e) => (error = e));
+						selfRootRef.innerHTML = '';
+						codeRunner[framework](App);
+					})
+					.catch((e) => (error = e));
+			}
 		}
 	}
 
