@@ -24,18 +24,28 @@
 		code = Examples[framework][component];
 		components = Object.keys(Examples[framework]);
 
-		editorWindows.set([
-			{
-				name: 'JavaScript',
-				code,
-				lang: 'js'
-			},
-			{
-				name: 'CSS',
-				code: '',
-				lang: 'css'
-			}
-		]);
+		const editorConfig = {
+			'svelte': [{
+					name: 'Svelte',
+					code,
+					lang: 'svelte'
+				},
+			],
+			'san': [{
+					name: 'JavaScript',
+					code,
+					lang: 'js'
+				},
+				{
+					name: 'CSS',
+					code: '',
+					lang: 'css'
+				},
+			]
+		};
+		// console.log(editorConfig[framework]);
+
+		editorWindows.set(editorConfig[framework]);
 
 		edRefresh.set(Math.random());
 	}
@@ -45,13 +55,19 @@
 	// TODO: Use window change event.
 	function editorTextChangeHandler({ detail }: EditorTextChangeEvent) {
 		const { lang, source } = detail;
-		$editorWindows[lang === 'js' ? 0 : 1].code = source;
+		$editorWindows.filter(ew => ew.lang == lang).forEach(ew => {
+			ew.code = source;
+		});
+		editorWindows.set($editorWindows);
 	}
 </script>
 
 <Sidebar list={components} actived={component} />
 <section class="flex flex-col w-full">
-	<Preview js={$editorWindows[0].code} css={$editorWindows[1].code} {framework} bind:error />
+	<Preview
+		{editorWindows}
+		{framework}
+		bind:error />
 	<Editor
 		className="border-b border-t border-gray-200"
 		{editorWindows}

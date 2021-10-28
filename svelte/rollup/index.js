@@ -46,6 +46,7 @@ export default function (options = {}) {
             styleConf.forEach(conf => {
                 magicContent.prependLeft(conf.start + conf.offset, conf.innerHTML);
             });
+            console.log();
 
             return {
                 code: magicContent.toString(),

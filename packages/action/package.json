@@ -1,6 +1,6 @@
 {
   "name": "@atomic-class/action",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "event handlers for atomic-class",
   "main": "dist/umd.js",
   "browser": "dist/umd.js",

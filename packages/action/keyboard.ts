@@ -3,7 +3,7 @@ import { add, remove, split, has } from '../core';
 
 export const keyboard: EventStateHandler<[number]> = (event, state, keycode) => {
     if (has(state, 'disabled')) return state;
-    if ((event as KeyboardEvent).keyCode !== keycode) return state;
+    if ((event as KeyboardEvent).keyCode.toString() !== keycode.toString()) return state;
     switch(event.type) {
       case 'keydown':
         state = add(state, 'active');

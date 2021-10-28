@@ -23,7 +23,7 @@
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@atomic-class/action": "0.1.1",
+    "@atomic-class/action": "0.1.2",
     "@atomic-class/core": "0.1.1",
     "@atomic-class/process": "0.1.1",
     "@babel/preset-env": "^7.15.6",
@@ -52,7 +52,7 @@
     "rollup-plugin-terser": "^7.0.0",
     "sass": "^1.43.2",
     "sirv-cli": "^1.0.0",
-    "svelte": "^3.0.0",
+    "svelte": "^3.44.0",
     "svelte-preprocess": "^4.9.8",
     "tailwindcss": "^2.2.17",
     "typescript": "^4.3.5"

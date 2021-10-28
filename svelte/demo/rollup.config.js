@@ -45,6 +45,7 @@ export default {
         name: 'app',
         file: '../playground/static/packages/playground/svelte-components/mod.js',
     },
+    external: ['svelte', 'svelte/internal'],
     plugins: [
         ac({
             target: 'tailwind', // less, sass, tailwind

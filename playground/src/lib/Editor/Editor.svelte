@@ -22,6 +22,7 @@
 	import { basicSetup, EditorView, EditorState } from '@codemirror/basic-setup';
 	import { javascript } from '@codemirror/lang-javascript';
 	import { css } from '@codemirror/lang-css';
+	import { html } from '@codemirror/lang-html';
 	import { keymap } from '@codemirror/view';
 	import { emacsStyleKeymap } from '@codemirror/commands';
 
@@ -92,6 +93,9 @@
 		let langExt = javascript();
 		if (cfg.lang === 'css') {
 			langExt = css();
+		}
+		if (cfg.lang === 'html' || cfg.lang === 'svelte') {
+			langExt = html();
 		}
 
 		const extensions = [
