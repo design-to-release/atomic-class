@@ -1,1 +1,0 @@
-import{S as t,i as e,s as a}from"../chunks/vendor-1c972bae.js";import{b as n}from"../chunks/paths-28a87002.js";async function l(){return{status:302,redirect:`${n}/svelte`}}class c extends t{constructor(s){super();e(this,s,null,null,a,{})}}export{c as default,l as load};

@@ -1,0 +1,1 @@
+import{S as e,i as n,s as a}from"../../chunks/vendor-8df98ad9.js";import{b as o}from"../../chunks/paths-28a87002.js";const r={san:"button",svelte:"button"};async function c({page:{params:s}}){const{framework:t}=s;return{status:302,redirect:`${o}/${t}/${r[t]}`}}class f extends e{constructor(t){super();n(this,t,null,null,a,{})}}export{f as default,c as load};
