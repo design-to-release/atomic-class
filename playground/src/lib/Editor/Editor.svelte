@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	type SupportedLang = 'js' | 'css';
+	type SupportedLang = 'js' | 'css' | 'html' | 'svelte';
 	interface TextChangeEventDetail {
 		lang: SupportedLang;
 		state: EditorState;

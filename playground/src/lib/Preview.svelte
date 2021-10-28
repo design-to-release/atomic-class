@@ -4,6 +4,8 @@
 
 	import { onMount } from 'svelte';
 	import { element } from 'svelte/internal';
+	import type { Readable } from 'svelte/store';
+	import type { EditorWindow } from './Editor/Editor.svelte';
 
 	export let framework: string;
 	export let error: Error;
@@ -46,9 +48,6 @@
 						// dev: false, css: false
 					}, {
 					filename: 'app.svelte',
-					generate: 'dom',
-					// generate: 'ssr'
-					// options
 				}),
 			);
 			console.log(js.code);
